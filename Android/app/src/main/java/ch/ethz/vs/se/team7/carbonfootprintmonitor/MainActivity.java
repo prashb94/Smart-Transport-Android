@@ -33,16 +33,25 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     public GoogleApiClient mApiClient;
     private TextView tvDetectedActivity;
 
+    private String username;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Get Intent which was started by LoginActivity and username
+        Intent intent = getIntent();
+        username = intent.getStringExtra(LoginActivity.EXTRA_USERNAME);
+        TextView welcomeUser = findViewById(R.id.welcome_user);
+        welcomeUser.setText(getResources().getString(R.string.live_green, username));
+
         mApiClient = new GoogleApiClient.Builder(this)
                 .addApi(ActivityRecognition.API)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
-        tvDetectedActivity = (TextView) findViewById(R.id.textViewDetectedActivity);
+        tvDetectedActivity = findViewById(R.id.textViewDetectedActivity);
         mApiClient.connect();
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         locationListener = new LocationListener() {

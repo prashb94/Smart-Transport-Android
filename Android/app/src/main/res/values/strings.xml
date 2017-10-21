@@ -1,6 +1,17 @@
 <resources>
-    <string name="app_name">Carbon Footprint Monitor</string>
+    <string name="app_name">@string/smart_transport</string>
     <string name="helloworld">Hello World! I am at </string>
     <string name="location">0.0, 0.0</string>
     <string name="speed">0.0 m/s</string>
+
+    <string name="co2_monitor">Carbon Footprint Monitor</string>
+    <string name="smart_transport">Smart Transport</string>
+
+    <!--Log In Activity-->
+    <string name="ask_name">What\'s your name?</string>
+    <string name="hint_name">Please enter your name here</string>
+
+    <!--Main Activity-->
+    <string name="live_green">%s, live green!</string>
+    <string name="speed_unit_km">km/h</string>
 </resources>
