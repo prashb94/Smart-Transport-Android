@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android.support.design="http://schemas.android.com/tools"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/text_app_title"
+        android:layout_width="wrap_content"
+        android:layout_height="52dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:ems="16"
+        android:paddingTop="24dp"
+        android:text="@string/app_name"
+        android:textAlignment="center"
+        android:fontFamily="sans-serif-medium"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        style="@android:style/TextAppearance.DeviceDefault.Large"/>
+
+    <ImageView
+        android:id="@+id/image_smart_transport_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="226dp"
+        android:layout_marginTop="12dp"
+        app:srcCompat="@drawable/world_leaf_eco"
+        android:layout_below="@+id/text_app_title"/>
+
+    <TextView
+        android:id="@+id/text_question_name"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:layout_below="@+id/image_smart_transport_logo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="12dp"
+        android:ems="15"
+        android:text="@string/ask_name"
+        android:textColor="#000000"
+        style="@android:style/TextAppearance.DeviceDefault.Medium"/>
+
+    <EditText
+        android:id="@+id/edit_name"
+        android:layout_width="wrap_content"
+        android:layout_height="52dp"
+        android:ems="14"
+        android:textSize="@dimen/place_autocomplete_prediction_primary_text"
+        android:inputType="textCapSentences"
+        android:hint="@string/hint_name"
+        android:layout_marginTop="8dp"
+        android:layout_below="@+id/text_question_name"
+        android:layout_alignStart="@+id/text_question_name" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/button_sign_in"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_alignTop="@+id/edit_name"
+        android:layout_alignEnd="@+id/text_question_name"
+        android:src="@drawable/ic_forward_black_48dp" />
+</RelativeLayout>
