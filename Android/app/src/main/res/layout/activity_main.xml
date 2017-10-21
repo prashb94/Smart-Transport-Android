@@ -18,46 +18,41 @@
             android:layout_width="wrap_content"
             android:layout_height="52dp"
             android:layout_weight="1"
-            android:text="@string/app_name"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.08" />
+            style="@style/title_style" />
     </LinearLayout>
 
     <TableLayout
         android:id="@+id/table_layout_main"
-        android:layout_below="@+id/actionbar_main"
         android:layout_width="match_parent"
-        android:layout_height="440dp">
+        android:layout_height="360dp"
+        android:layout_below="@+id/actionbar_main">
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/table_text_0_0"
                 style="@style/table_text_view"
-                android:textStyle="bold"
-                android:text="Transport" />
+                android:text="@string/legend_transport"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/table_text_0_1"
                 style="@style/table_text_view"
-                android:textStyle="bold"
-                android:text="Time" />
+                android:text="@string/legend_time"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/table_text_0_2"
                 style="@style/table_text_view"
-                android:textStyle="bold"
-                android:text="Distance" />
+                android:text="@string/legend_distance"
+                android:textStyle="bold" />
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/image_walk"
@@ -78,7 +73,7 @@
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/image_bike"
@@ -99,7 +94,7 @@
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/image_car"
@@ -119,7 +114,7 @@
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/image_tram"
@@ -139,66 +134,75 @@
     </TableLayout>
 
     <RelativeLayout
+        android:id="@+id/debug_layout"
         android:layout_below="@id/table_layout_main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@+id/fab_linear_layout" >
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/textView_debug"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="and travelling with a speed of "
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.309" />
+            android:textStyle="bold"
+            android:text="Debugging options" />
 
         <TextView
-            android:id="@+id/textViewSpeed"
+            android:id="@+id/textView_speed_capture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/speed"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.394" />
+            android:layout_below="@+id/textView_debug"
+            android:text="Current Speed: " />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/textView_speed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="You are - "
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.501"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.518" />
+            android:layout_below="@+id/textView_debug"
+            android:layout_toRightOf="@id/textView_speed_capture"
+            android:text="@string/speed" />
 
+
+        <TextView
+            android:id="@+id/textView_location_capture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView_speed_capture"
+            android:text="Current Location: " />
+
+        <TextView
+            android:id="@+id/textView_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView_speed_capture"
+            android:layout_toRightOf="@+id/textView_location_capture"
+            android:text="@string/location" />
         <TextView
             android:id="@+id/textViewDetectedActivity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="(DetectedActivity)"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.501"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.605" />
-
-        <TextView
-            android:id="@+id/textViewLocation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/location"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.202" />
+            android:layout_below="@+id/textView_location"
+            android:text="(Detected Activity)" />
     </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/fab_linear_layout"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_below="@+id/table_layout_main"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/button_toggle_energy"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:baselineAlignBottom="true"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:src="@drawable/world_leaf_eco"
+            app:fabSize="normal" />
+    </LinearLayout>
 
 </RelativeLayout>

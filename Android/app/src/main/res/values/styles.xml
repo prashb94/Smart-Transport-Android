@@ -8,6 +8,14 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- Style for title of app -->
+    <style name="title_style">
+        <item name="android:text">@string/app_name</item>
+        <item name="android:gravity">center</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Large</item>
+    </style>
+
     <!-- ImageView Style for displaying icons in table (MainAcitivity)-->
     <style name="table_icon_view">
         <item name="android:layout_width">0px</item>

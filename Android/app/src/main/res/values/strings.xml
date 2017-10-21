@@ -13,5 +13,21 @@
 
     <!--Main Activity-->
     <string name="live_green">%s, live green!</string>
-    <string name="speed_unit_km">km/h</string>
+
+    <!--Legend for Table in MainActivity-->
+    <string name="legend_transport">Transport</string>
+    <string name="legend_time">Time</string>
+    <string name="legend_distance">Distance</string>
+    <string name="legend_co2">CO2</string>
+    <string name="legend_energy">Energy</string>
+
+    <string name="speed_unit_kmh">%.2km/h</string>
+    <string name="speed_unit_ms">%.2fm/s</string>
+    <string name="energy_unit_kwh">%.2fkWh</string>
+    <string name="co2_unit_g">%.2fg</string>
+    <string name="co2_unit_kg">%.2fkg</string>
+    <string name="distance_unit_km">%.2fkm</string>
+    <string name="distance_unit_m">%.2fm</string>
+    <string name="time_unit_h">h</string>
+    <string name="time_unit_min">min</string>
 </resources>
