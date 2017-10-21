@@ -39,16 +39,19 @@
             <TextView
                 android:id="@+id/table_text_0_0"
                 style="@style/table_text_view"
+                android:textStyle="bold"
                 android:text="Transport" />
 
             <TextView
                 android:id="@+id/table_text_0_1"
                 style="@style/table_text_view"
+                android:textStyle="bold"
                 android:text="Time" />
 
             <TextView
                 android:id="@+id/table_text_0_2"
                 style="@style/table_text_view"
+                android:textStyle="bold"
                 android:text="Distance" />
         </TableRow>
 
@@ -59,7 +62,7 @@
             <ImageView
                 android:id="@+id/image_walk"
                 style="@style/table_icon_view"
-                app:srcCompat="@drawable/ic_directions_walk_black_48dp" />
+                app:srcCompat="@mipmap/ic_walk" />
 
             <TextView
                 android:id="@+id/table_text_1_1"
@@ -80,7 +83,7 @@
             <ImageView
                 android:id="@+id/image_bike"
                 style="@style/table_icon_view"
-                app:srcCompat="@drawable/ic_directions_bike_black_48dp" />
+                app:srcCompat="@mipmap/ic_bike" />
 
             <TextView
                 android:id="@+id/table_text_2_1"
@@ -101,7 +104,7 @@
             <ImageView
                 android:id="@+id/image_car"
                 style="@style/table_icon_view"
-                app:srcCompat="@drawable/ic_directions_car_black_48dp" />
+                app:srcCompat="@mipmap/ic_car" />
 
             <TextView
                 android:id="@+id/table_text_3_1"
@@ -121,7 +124,7 @@
             <ImageView
                 android:id="@+id/image_tram"
                 style="@style/table_icon_view"
-                app:srcCompat="@drawable/ic_tram_black_48dp" />
+                app:srcCompat="@mipmap/ic_tram" />
 
             <TextView
                 android:id="@+id/table_text_4_1"
