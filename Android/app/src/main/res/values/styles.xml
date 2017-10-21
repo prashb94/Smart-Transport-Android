@@ -8,4 +8,27 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- ImageView Style for displaying icons in table (MainAcitivity)-->
+    <style name="table_icon_view">
+        <item name="android:layout_width">0px</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_weight">3</item>
+    </style>
+
+    <!-- TextView Style for displaying numbers in table (MainActivity) -->
+    <style name="table_text_view">
+        <item name="android:layout_width">0px</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_weight">3</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:textStyle">bold|italic</item>
+        <item name="android:textSize">28sp</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:gravity">center</item>
+        <item name="android:ems">4</item>
+    </style>
+
 </resources>
