@@ -133,58 +133,6 @@
         </TableRow>
     </TableLayout>
 
-    <RelativeLayout
-        android:id="@+id/debug_layout"
-        android:layout_below="@id/table_layout_main"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_toRightOf="@+id/fab_linear_layout" >
-
-        <TextView
-            android:id="@+id/textView_debug"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:text="Debugging options" />
-
-        <TextView
-            android:id="@+id/textView_speed_capture"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textView_debug"
-            android:text="Current Speed: " />
-
-        <TextView
-            android:id="@+id/textView_speed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textView_debug"
-            android:layout_toRightOf="@id/textView_speed_capture"
-            android:text="@string/speed" />
-
-
-        <TextView
-            android:id="@+id/textView_location_capture"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textView_speed_capture"
-            android:text="Current Location: " />
-
-        <TextView
-            android:id="@+id/textView_location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textView_speed_capture"
-            android:layout_toRightOf="@+id/textView_location_capture"
-            android:text="@string/location" />
-        <TextView
-            android:id="@+id/textViewDetectedActivity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textView_location"
-            android:text="(Detected Activity)" />
-    </RelativeLayout>
-
     <LinearLayout
         android:id="@+id/fab_linear_layout"
         android:layout_width="120dp"

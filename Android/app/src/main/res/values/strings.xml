@@ -12,7 +12,7 @@
     <string name="hint_name">Please enter your name here</string>
 
     <!--Main Activity-->
-    <string name="live_green">%s, live green!</string>
+    <string name="live_green">Live green!</string>
 
     <!--Legend for Table in MainActivity-->
     <string name="legend_transport">Transport</string>

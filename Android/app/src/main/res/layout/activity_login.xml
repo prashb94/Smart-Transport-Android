@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     xmlns:android.support.design="http://schemas.android.com/tools"
     android:orientation="horizontal">
 
@@ -56,4 +57,21 @@
         android:layout_alignTop="@+id/edit_name"
         android:layout_alignEnd="@+id/text_question_name"
         android:src="@mipmap/ic_forward" />
+
+    <Button
+        android:id="@+id/viewDbButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View Database"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true" />
+
+    <ToggleButton
+        android:id="@+id/toggleMonitoring"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="17dp" />
+
 </RelativeLayout>
