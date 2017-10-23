@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private LocationListener locationListener;
     public GoogleApiClient mApiClient;
 
-    // debugging text view
+    // debugging text vie
     private TextView tvDetectedActivity;
     private TextView tvLocation;
     private TextView tvSpeed;
