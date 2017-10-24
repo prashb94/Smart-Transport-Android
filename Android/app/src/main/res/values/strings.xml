@@ -14,6 +14,17 @@
     <!--Main Activity-->
     <string name="live_green">%s, live green!</string>
 
+    <!--AlertDialog-->
+    <string-array name="transport_types">
+        <item>Tram</item>
+        <item>Local Bus</item>
+        <item>Regional Train</item>
+        <item>Cable Car</item>
+        <item>Boat</item>
+        <item>S-Bahn</item>
+
+    </string-array>
+
     <!--Legend for Table in MainActivity-->
     <string name="legend_transport">Transport</string>
     <string name="legend_time">Time</string>
