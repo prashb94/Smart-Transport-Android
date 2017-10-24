@@ -81,10 +81,15 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 } else {
                     // The toggle is disabled
                     Log.d("CUR_CONTEXT","TOGGLE=OFF");
-                    mApiClient.disconnect();
-                    pendingIntent.cancel();
-                    asyncUpdate.cancel(true);
-                    //startMonitoring.cancel(true);
+                    try {
+                        mApiClient.disconnect();
+                        pendingIntent.cancel();
+                        asyncUpdate.cancel(true);
+                        //startMonitoring.cancel(true);
+                    } catch (Exception e){
+                        Log.e("CANCEL_ERR", String.valueOf(e));
+                    }
+
                 }
             }
         });
