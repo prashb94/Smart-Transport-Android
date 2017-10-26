@@ -65,7 +65,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             }
         });
         //startMonitoring = new WriteToDatabase();
-        asyncUpdate = new LocationAndSpeed(this);
         ToggleButton toggle = (ToggleButton) findViewById(R.id.toggleMonitoring);
         toggle.setBackgroundColor(Color.GRAY);
         toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -76,6 +75,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     Log.d("CUR_CONTEXT","TOGGLE=ON");
                     mApiClient = new GoogleApiClient.Builder(LoginActivity.this).addApi(ActivityRecognition.API).addConnectionCallbacks(LoginActivity.this).addOnConnectionFailedListener(LoginActivity.this).build();
                     mApiClient.connect();
+                    asyncUpdate = new LocationAndSpeed(LoginActivity.this);
                     asyncUpdate.execute();
                     //startMonitoring.execute(1);
                 } else {
@@ -102,7 +102,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         pendingIntent = PendingIntent.getService(LoginActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         Log.d("CUR_CONTEXT","CREATE_PENDING_INTENT");
         //Granularity of activity updates = 1000. TODO: Add settings option to set granularity
-        ActivityRecognition.ActivityRecognitionApi.requestActivityUpdates(mApiClient, 100, pendingIntent);
+        ActivityRecognition.ActivityRecognitionApi.requestActivityUpdates(mApiClient, 1000, pendingIntent);
     }
 
     @Override
