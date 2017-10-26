@@ -41,6 +41,10 @@ public class MainActivity extends AppCompatActivity{
     int transportTypeInt;
     String transportTypeString;
 
+    //Variables for storing CO2 emissions and Primary Energy usage.
+    double cO2Emissions;
+    double primaryEnergyUsage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,10 +64,11 @@ public class MainActivity extends AppCompatActivity{
 
 
 
-//***************************************************************
+        //Button for AlertDialog, where current vehicle is chosen.
         vehicle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //Creates the AlertDialog.
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle("What vehicle are you using?");
                 builder.setSingleChoiceItems(listOfTransportTypes, -1, new DialogInterface.OnClickListener() {
@@ -82,6 +87,9 @@ public class MainActivity extends AppCompatActivity{
                         StringBuilder typeStringBuilder = new StringBuilder();
                         typeStringBuilder.append(transportTypeString);
                         typeStringBuilder.append(" selected");
+
+                        //Just to make it clear what was picked, we show the user what he vehicle he
+                        // picked using a Toast(small message pop-up message in android.
                         Toast.makeText(getApplicationContext(), typeStringBuilder, Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -91,10 +99,6 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
-
-
-
- //**************************************************************/
 
         // Initialize (CO2/energy) / (h/km) toggle button
         energyToggleButton = findViewById(R.id.button_toggle_energy);
