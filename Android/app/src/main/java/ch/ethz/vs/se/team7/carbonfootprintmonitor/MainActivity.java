@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity{
                     public void onClick(DialogInterface dialogInterface, int i) {
                         StringBuilder typeStringBuilder = new StringBuilder();
                         typeStringBuilder.append(transportTypeString);
-                        typeStringBuilder.append(" selected");
+                        typeStringBuilder.append(" Selected");
 
                         //Just to make it clear what was picked, we show the user what he vehicle he
                         // picked using a Toast(small message pop-up message in android.
@@ -151,6 +151,9 @@ public class MainActivity extends AppCompatActivity{
         * 4 = boat
         * 5 = S-Bahn
         * Comment: We can add more veicles later on.
+        *
+        * Primary Energy consumtion is measured in ml gasonline/pkm.
+        * BUT, now multiplies by 34.2 to get it converted into MJ.
         * */
         double energyConsumption;
         switch (transportType) {
@@ -166,13 +169,16 @@ public class MainActivity extends AppCompatActivity{
                 break;
             case 5: energyConsumption = distance * 20.4; //S-bahn
                 break;
+            case 6: energyConsumption = distance * 100.9; //Car
             //Should have try catch here?
             default: energyConsumption = 0;
                 break;
         }
-        return energyConsumption;
+        return Math.round((energyConsumption * 34.2 * 0.001) * 100) / 100; //Multiplies to get answer in MJ, instead of ml gasoline/km.
+        // 34.2? -> Energy density of gasoline
     }
     private double convertToCO2(int transportType, double distance) {
+        // CO2 g/pkm
         double co2Consumption;
         switch (transportType) {
             case 0: co2Consumption = distance * 24.9; //Tram
@@ -187,11 +193,13 @@ public class MainActivity extends AppCompatActivity{
                 break;
             case 5: co2Consumption = distance * 8.2; //S-bahn
                 break;
+            case 6: co2Consumption = distance * 201.0; //Car
+                break;
             //Should have try catch here?
             default: co2Consumption= 0;
                 break;
         }
-        return co2Consumption;
+        return Math.round(co2Consumption * 100) / 100;
     }
 
 }

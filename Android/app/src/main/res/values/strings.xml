@@ -22,7 +22,7 @@
         <item>Cable Car</item>
         <item>Boat</item>
         <item>S-Bahn</item>
-
+        <item>Car</item>
     </string-array>
 
     <!--Legend for Table in MainActivity-->
