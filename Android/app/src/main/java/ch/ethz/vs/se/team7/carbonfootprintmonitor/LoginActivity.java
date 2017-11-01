@@ -102,7 +102,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         pendingIntent = PendingIntent.getService(LoginActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         Log.d("CUR_CONTEXT","CREATE_PENDING_INTENT");
         //Granularity of activity updates = 1000. TODO: Add settings option to set granularity
-        ActivityRecognition.ActivityRecognitionApi.requestActivityUpdates(mApiClient, 1000, pendingIntent);
+        ActivityRecognition.ActivityRecognitionApi.requestActivityUpdates(mApiClient, 10, pendingIntent);
     }
 
     @Override
