@@ -15,21 +15,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import android.app.Dialog;
 import android.app.AlertDialog;
-import android.support.v4.app.Fragment;
 import android.widget.Toast;
-
-
-public class MainActivity extends AppCompatActivity{
-import com.google.android.gms.common.api.GoogleApiClient;
 
 
 public class MainActivity extends AppCompatActivity {
 
     private LocationManager locationManager;
     private LocationListener locationListener;
-    public GoogleApiClient mApiClient;
 
     // debugging text views
     private TextView tvDetectedActivity;
