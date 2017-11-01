@@ -4,6 +4,9 @@
     <color name="colorPrimaryDark">@color/teal_1</color>
     <color name="colorAccent">@color/lime_1</color>
 
+    <color name="green">#4CAF50</color>
+    <color name="red">#F44336</color>
+
     <color name="blue_1">#165873</color>
     <color name="teal_1">#124C59</color>
     <color name="green_1">#428C5C</color>

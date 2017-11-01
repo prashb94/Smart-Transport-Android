@@ -7,19 +7,34 @@
     android:orientation="horizontal"
     tools:context="ch.ethz.vs.se.team7.carbonfootprintmonitor.MainActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/actionbar_main"
         android:layout_width="match_parent"
-        android:layout_height="42dp"
+        android:layout_height="72dp"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/welcome_user"
             android:layout_width="wrap_content"
-            android:layout_height="52dp"
+            android:layout_height="72dp"
             android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
             style="@style/title_style" />
-    </LinearLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_gps"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginRight="12dp"
+            android:clickable="true"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/ic_gps_on"
+            app:backgroundTint="@color/green"
+            app:fabSize="normal" />
+
+    </RelativeLayout>
 
     <TableLayout
         android:id="@+id/table_layout_main"
@@ -133,6 +148,59 @@
         </TableRow>
     </TableLayout>
 
+    <RelativeLayout
+        android:id="@+id/debug_layout"
+        android:layout_below="@id/table_layout_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toEndOf="@+id/fab_linear_layout"
+        android:layout_marginLeft="20dp" >
+
+        <TextView
+            android:id="@+id/textView_debug"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="Debugging options" />
+
+        <TextView
+            android:id="@+id/textView_speed_capture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView_debug"
+            android:text="Current Speed: " />
+
+        <TextView
+            android:id="@+id/textView_speed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView_debug"
+            android:layout_toRightOf="@id/textView_speed_capture"
+            android:text="@string/speed" />
+
+
+        <TextView
+            android:id="@+id/textView_location_capture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView_speed_capture"
+            android:text="Current Location: " />
+
+        <TextView
+            android:id="@+id/textView_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView_speed_capture"
+            android:layout_toRightOf="@+id/textView_location_capture"
+            android:text="@string/location" />
+        <TextView
+            android:id="@+id/textViewDetectedActivity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView_location"
+            android:text="(Detected Activity)" />
+    </RelativeLayout>
+
     <LinearLayout
         android:id="@+id/fab_linear_layout"
         android:layout_width="120dp"
@@ -143,7 +211,7 @@
 
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/button_toggle_energy"
+            android:id="@+id/fab_toggle_energy"
             android:layout_width="90dp"
             android:layout_height="90dp"
             android:baselineAlignBottom="true"

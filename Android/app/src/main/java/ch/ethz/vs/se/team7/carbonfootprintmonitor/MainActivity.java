@@ -1,17 +1,35 @@
 package ch.ethz.vs.se.team7.carbonfootprintmonitor;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity{
+import com.google.android.gms.common.api.GoogleApiClient;
+
+
+public class MainActivity extends AppCompatActivity {
+
+    private LocationManager locationManager;
+    private LocationListener locationListener;
+    public GoogleApiClient mApiClient;
+
+    // debugging text views
+    private TextView tvDetectedActivity;
+    private TextView tvLocation;
+    private TextView tvSpeed;
 
     private String username;
     private FloatingActionButton energyToggleButton;
+    private FloatingActionButton gpsToggleButton;
     private boolean energyDisplayFlag;
+    private boolean gpsOn;
 
     // table contents MainActivity
     private TextView legendTimeCO2;
@@ -37,12 +55,25 @@ public class MainActivity extends AppCompatActivity{
         TextView welcomeUser = findViewById(R.id.welcome_user);
         welcomeUser.setText(getResources().getString(R.string.live_green, username));
 
+        // Initialize debugging textViews
+        tvSpeed = findViewById(R.id.textView_speed);
+        tvLocation = findViewById(R.id.textView_location);
+
         // Initialize (CO2/energy) / (h/km) toggle button
-        energyToggleButton = findViewById(R.id.button_toggle_energy);
+        energyToggleButton = findViewById(R.id.fab_toggle_energy);
         energyToggleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 toggleEnergyDisplay();
+            }
+        });
+
+        // Initialize gps toggle button
+        gpsToggleButton = findViewById(R.id.fab_gps);
+        gpsToggleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                toggleGps();
             }
         });
 
@@ -59,11 +90,11 @@ public class MainActivity extends AppCompatActivity{
         tramValue2 = findViewById(R.id.table_text_4_2);
 
         energyDisplayFlag = false;
-
+        gpsOn = true;
     }
 
     private void toggleEnergyDisplay() {
-        //TODO: switch actual values in text views
+        //ToDo: switch actual values in text views
         if (energyDisplayFlag) {
             energyDisplayFlag = false;
             legendTimeCO2.setText(getResources().getString(R.string.legend_time));
@@ -73,6 +104,23 @@ public class MainActivity extends AppCompatActivity{
             energyDisplayFlag = true;
             legendTimeCO2.setText(getResources().getString(R.string.legend_co2));
             legendDistanceEnergy.setText(getResources().getString(R.string.legend_energy));
+        }
+    }
+
+    private void toggleGps() {
+        if (gpsOn) {
+            gpsOn = false;
+            //ToDo: toggle off gps
+            // set fab to red
+            gpsToggleButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#F44336")));
+            gpsToggleButton.setImageResource(R.mipmap.ic_gps_off);
+        }
+        else {
+            gpsOn = true;
+            //ToDo: toggle on gps
+            // set fab to green
+            gpsToggleButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#4CAF50")));
+            gpsToggleButton.setImageResource(R.mipmap.ic_gps_on);
         }
     }
 }
