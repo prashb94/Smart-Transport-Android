@@ -8,7 +8,6 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.location.LocationManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -59,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private Button viewDbButton;
 
     //alertDialog for Transport Types
-    Button vehicle;
+    Button vehicleButton;
     String[] listOfTransportTypes;
     int transportTypeInt;
     String transportTypeString;
@@ -80,20 +79,20 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         welcomeUser.setText(getResources().getString(R.string.live_green, username));
 
         //AlertDialog. How often should we be able to ask this question?
-        vehicle = (Button) findViewById(R.id.vehicleDialogBtn);
+        vehicleButton = (Button) findViewById(R.id.vehicleDialogBtn);
 
         //AlertDialog Items.
         listOfTransportTypes = getResources().getStringArray(R.array.transport_types);
 
 
 
-        //Button for AlertDialog, where current vehicle is chosen.
-        vehicle.setOnClickListener(new View.OnClickListener() {
+        //Button for AlertDialog, where current vehicleButton is chosen.
+        vehicleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Creates the AlertDialog.
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setTitle("What vehicle are you using?");
+                builder.setTitle("What vehicleButton are you using?");
                 builder.setSingleChoiceItems(listOfTransportTypes, -1, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int chosenTranportType) {
@@ -111,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                         typeStringBuilder.append(transportTypeString);
                         typeStringBuilder.append(" Selected");
 
-                        //Just to make it clear what was picked, we show the user what he vehicle he
+                        //Just to make it clear what was picked, we show the user what he vehicleButton he
                         // picked using a Toast(small message pop-up message in android.
                         Toast.makeText(getApplicationContext(), typeStringBuilder, Toast.LENGTH_SHORT).show();
                     }

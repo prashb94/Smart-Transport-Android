@@ -41,4 +41,9 @@
     <string name="distance_unit_m">%.2fm</string>
     <string name="time_unit_h">h</string>
     <string name="time_unit_min">min</string>
+
+    <!--Change Time Buttons-->
+    <string name="today">Today</string>
+    <string name="weekly">Weekly</string>
+    <string name="monthly">Monthly</string>
 </resources>
