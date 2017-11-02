@@ -168,7 +168,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/today"
-                android:background="@drawable/RoundedBtnShapeLeft"/>
+                android:background="@drawable/rounded_btn_shape_left"/>
 
             <Button
                 android:id="@+id/button_week"
@@ -179,7 +179,7 @@
                 android:layout_marginStart="2dp"
                 android:text="@string/weekly"
                 android:layout_toEndOf="@+id/button_day"
-                android:background="@drawable/RoundedBtnShape"/>
+                android:background="@drawable/rounded_btn_shape"/>
 
             <Button
                 android:id="@+id/button_month"
@@ -188,7 +188,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/monthly"
                 android:layout_toEndOf="@+id/button_week"
-                android:background="@drawable/RoundedBtnShapeRight"/>
+                android:background="@drawable/rounded_btn_shape_right"/>
 
         </RelativeLayout>
 
