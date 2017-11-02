@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
+import android.widget.TextView;
 
 
 import static android.content.Context.LOCATION_SERVICE;
@@ -26,6 +27,10 @@ import static android.support.v4.app.ActivityCompat.requestPermissions;
 public class LocationAndSpeed extends AsyncTask<Void, Void, Void> {
 
     private LocationManager locationManager;
+
+    //private TextView tvLocation;
+
+    //private TextView tvSpeed;
 
     private LocationListener locationListener;
 
@@ -46,10 +51,16 @@ public class LocationAndSpeed extends AsyncTask<Void, Void, Void> {
 
         locationManager = (LocationManager) mContext.getSystemService(LOCATION_SERVICE);
 
+        //tvSpeed = tvSpeed.findViewById(R.id.textView_speed);
+
+        //tvLocation = tvLocation.findViewById(R.id.textView_location);
+
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
                 Log.d("CUR_CONTEXT", "LOCATIONCHANGED");
+                //tvSpeed.setText(String.valueOf(location.getSpeed()));
+                //tvLocation.setText(location.getLatitude() + "," + location.getLongitude());
                 saveLocationAndSpeed.setLastDetectedSpeed(String.valueOf(location.getSpeed()));
                 saveLocationAndSpeed.setLastDetectedLocation(location.getLatitude() + "," + location.getLongitude());
             }

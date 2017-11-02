@@ -58,20 +58,4 @@
         android:layout_alignEnd="@+id/text_question_name"
         android:src="@mipmap/ic_forward" />
 
-    <Button
-        android:id="@+id/viewDbButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="View Database"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true" />
-
-    <ToggleButton
-        android:id="@+id/toggleMonitoring"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/edit_name"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="17dp" />
-
 </RelativeLayout>

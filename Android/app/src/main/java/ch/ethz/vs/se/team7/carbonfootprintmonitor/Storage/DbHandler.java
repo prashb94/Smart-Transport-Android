@@ -5,6 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import ch.ethz.vs.se.team7.carbonfootprintmonitor.Storage.Contract.ActivityRecordedEntry;
 
+import static ch.ethz.vs.se.team7.carbonfootprintmonitor.Storage.SQLQueries.CREATE_TABLE_QUERY;
+
 
 public class DbHandler extends SQLiteOpenHelper {
 
@@ -17,15 +19,6 @@ public class DbHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        final String CREATE_TABLE_QUERY = "CREATE TABLE "
-                + ActivityRecordedEntry.TABLE_NAME + " ("
-                + ActivityRecordedEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + ActivityRecordedEntry.COL_ACTIVITY_RECORDED + " TEXT NOT NULL, "
-                + ActivityRecordedEntry.COL_CONFIDENCE + " DOUBLE NOT NULL, "
-                + ActivityRecordedEntry.COL_SPEED + " DOUBLE NOT NULL, "
-                + ActivityRecordedEntry.COL_LOCATION + " TEXT NOT NULL, "
-                + ActivityRecordedEntry.COL_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP" + ");";
-
         sqLiteDatabase.execSQL(CREATE_TABLE_QUERY);
 
     }

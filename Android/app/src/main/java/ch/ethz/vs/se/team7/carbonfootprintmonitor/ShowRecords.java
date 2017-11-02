@@ -76,7 +76,7 @@ public class ShowRecords extends AppCompatActivity {
                     /*Setting up the second column parameters*/
                         secondCol=new TextView(this);
                         secondCol.setText(cursor.getString(index1));
-                        secondCol.setTextColor(Color.YELLOW);
+                        secondCol.setTextColor(Color.RED);
                         secondCol.setLayoutParams(new LayoutParams(
                                 LayoutParams.WRAP_CONTENT,
                                 LayoutParams.WRAP_CONTENT));

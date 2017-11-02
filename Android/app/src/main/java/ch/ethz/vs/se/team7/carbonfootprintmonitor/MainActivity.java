@@ -1,5 +1,7 @@
 package ch.ethz.vs.se.team7.carbonfootprintmonitor;
 
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -7,6 +9,8 @@ import android.graphics.Color;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationManager;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,16 +22,16 @@ import android.widget.TextView;
 import android.app.AlertDialog;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.ActivityRecognition;
 
-public class MainActivity extends AppCompatActivity {
+
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private LocationManager locationManager;
     private LocationListener locationListener;
 
-    // debugging text views
-    private TextView tvDetectedActivity;
-    private TextView tvLocation;
-    private TextView tvSpeed;
 
     private String username;
     private FloatingActionButton energyToggleButton;
@@ -46,6 +50,13 @@ public class MainActivity extends AppCompatActivity {
     private TextView carValue2;
     private TextView tramValue1;
     private TextView tramValue2;
+
+    //Google Api client and Intent for location and speed
+    public GoogleApiClient mApiClient;
+    private LocationAndSpeed asyncUpdate;
+    private PendingIntent pendingIntent;
+    private Intent intent;
+    private Button viewDbButton;
 
     //alertDialog for Transport Types
     Button vehicle;
@@ -112,10 +123,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        // Initialize debugging textViews
-        tvSpeed = findViewById(R.id.textView_speed);
-        tvLocation = findViewById(R.id.textView_location);
-
         // Initialize (CO2/energy) / (h/km) toggle button
         energyToggleButton = findViewById(R.id.fab_toggle_energy);
         energyToggleButton.setOnClickListener(new View.OnClickListener() {
@@ -148,7 +155,17 @@ public class MainActivity extends AppCompatActivity {
         tramValue2 = findViewById(R.id.table_text_4_2);
 
         energyDisplayFlag = false;
-        gpsOn = true;
+        gpsOn = false;
+        gpsToggleButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#F44336")));
+        gpsToggleButton.setImageResource(R.mipmap.ic_gps_off);
+        //View Database button
+        viewDbButton = findViewById(R.id.viewDbButton);
+        viewDbButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewDatabase(view);
+            }
+        });
     }
 
     private void toggleEnergyDisplay() {
@@ -168,17 +185,30 @@ public class MainActivity extends AppCompatActivity {
     private void toggleGps() {
         if (gpsOn) {
             gpsOn = false;
-            //ToDo: toggle off gps
             // set fab to red
             gpsToggleButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#F44336")));
             gpsToggleButton.setImageResource(R.mipmap.ic_gps_off);
+            Log.d("CUR_CONTEXT","TOGGLE=OFF");
+            try {
+                mApiClient.disconnect();
+                pendingIntent.cancel();
+                asyncUpdate.cancel(true);
+            } catch (Exception e){
+                Log.e("CANCEL_ERR", String.valueOf(e));
+            }
         }
         else {
             gpsOn = true;
-            //ToDo: toggle on gps
             // set fab to green
             gpsToggleButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#4CAF50")));
             gpsToggleButton.setImageResource(R.mipmap.ic_gps_on);
+            //TODO: Monitoring flag checks
+            Log.d("CUR_CONTEXT","TOGGLE=ON");
+            mApiClient = new GoogleApiClient.Builder(MainActivity.this).addApi(ActivityRecognition.API).addConnectionCallbacks(MainActivity.this).addOnConnectionFailedListener(MainActivity.this).build();
+            mApiClient.connect();
+            asyncUpdate = new LocationAndSpeed(MainActivity.this);
+            asyncUpdate.execute();
+
         }
     }
 
@@ -243,5 +273,33 @@ public class MainActivity extends AppCompatActivity {
         }
         return Math.round(co2Consumption * 100) / 100;
     }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        intent = new Intent(MainActivity.this, ActivityRecognizedService.class);
+        pendingIntent = PendingIntent.getService(MainActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Log.d("CUR_CONTEXT","CREATE_PENDING_INTENT");
+        //Granularity of activity updates = 1000. TODO: Add settings option to set granularity
+        ActivityRecognition.ActivityRecognitionApi.requestActivityUpdates(mApiClient, 10, pendingIntent);
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+
+    public void viewDatabase(View view) {
+        Context thisActivity = MainActivity.this;
+        Class destinationActivity = ShowRecords.class;
+        Intent intent = new Intent(thisActivity, destinationActivity);
+        startActivity(intent);
+    }
+
 
 }

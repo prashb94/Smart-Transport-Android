@@ -199,6 +199,16 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/textView_location"
             android:text="(Detected Activity)" />
+
+        <Button
+            android:id="@+id/viewDbButton"
+            style="@style/Widget.AppCompat.Button.Colored"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:text="DB" />
     </RelativeLayout>
 
     <LinearLayout
