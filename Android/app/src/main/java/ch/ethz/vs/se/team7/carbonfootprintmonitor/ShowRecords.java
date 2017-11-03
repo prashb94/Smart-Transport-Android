@@ -19,6 +19,7 @@ import ch.ethz.vs.se.team7.carbonfootprintmonitor.Storage.DbHandler;
 public class ShowRecords extends AppCompatActivity {
 
     SQLiteDatabase database;
+    private DbHandler dbAdapter;
 
     TableLayout tableLayout;
     TableRow row;
@@ -32,13 +33,15 @@ public class ShowRecords extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_records);
         tableLayout=(TableLayout)findViewById(R.id.dbTable);
+        dbAdapter = new DbHandler(this);
 
         displayDB();
     }
 
     private void displayDB() {
         try {
-            database = openOrCreateDatabase(DbHandler.DATABASE_NAME, Context.MODE_PRIVATE, null);
+            database = dbAdapter.getReadableDatabase();
+            //database = openOrCreateDatabase(DbHandler.DATABASE_NAME, Context.MODE_PRIVATE, null);
         }
         catch (Exception e){
             Log.e("OPEN_DB", String.valueOf(e));
@@ -115,7 +118,7 @@ public class ShowRecords extends AppCompatActivity {
                                 LayoutParams.WRAP_CONTENT));
 
                     }while(cursor.moveToNext());
-
+                    cursor.close();
                     database.close();
                 }
                 else

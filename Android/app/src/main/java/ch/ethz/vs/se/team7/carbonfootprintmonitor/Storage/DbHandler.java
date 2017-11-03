@@ -20,12 +20,11 @@ public class DbHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(CREATE_TABLE_QUERY);
-
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + ActivityRecordedEntry.TABLE_NAME);
+        //sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + ActivityRecordedEntry.TABLE_NAME);
         onCreate(sqLiteDatabase);
     }
 }

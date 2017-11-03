@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-import android.widget.TextView;
 
 import com.google.android.gms.location.ActivityRecognitionResult;
 import com.google.android.gms.location.DetectedActivity;
@@ -36,7 +35,6 @@ public class ActivityRecognizedService extends IntentService {
         super(name);
     }
 
-    //private TextView tvDetectedActivity;
 
     @Override
     protected void onHandleIntent(Intent intent) {
@@ -47,7 +45,6 @@ public class ActivityRecognizedService extends IntentService {
 
         activityRecordedDb = dbAdapter.getWritableDatabase();
 
-        //tvDetectedActivity = tvDetectedActivity.findViewById(R.id.textViewDetectedActivity);
 
         if (ActivityRecognitionResult.hasResult(intent)) {
             ActivityRecognitionResult result = ActivityRecognitionResult.extractResult(intent);
@@ -80,7 +77,6 @@ public class ActivityRecognizedService extends IntentService {
             switch( activity.getType() ) {
                 case DetectedActivity.IN_VEHICLE: {
                     Log.e( "ActivityRecogition", "In Vehicle: " + activity.getConfidence() );
-                    //tvDetectedActivity.setText("In Vehicle");
                     if( activity.getConfidence() >= 30 ) {
                         ContentValues cv = new ContentValues();
                         cv.put(Contract.ActivityRecordedEntry.COL_ACTIVITY_RECORDED, "Vehicle");
@@ -93,7 +89,6 @@ public class ActivityRecognizedService extends IntentService {
                 }
                 case DetectedActivity.ON_BICYCLE: {
                     Log.e( "ActivityRecogition", "On Bicycle: " + activity.getConfidence() );
-                    //tvDetectedActivity.setText("On Bicycle");
                     if( activity.getConfidence() >= 30 ) {
                         ContentValues cv = new ContentValues();
                         cv.put(Contract.ActivityRecordedEntry.COL_ACTIVITY_RECORDED, "Bicycle");
@@ -106,7 +101,6 @@ public class ActivityRecognizedService extends IntentService {
                 }
                 case DetectedActivity.ON_FOOT: {
                     Log.e( "ActivityRecogition", "On Foot: " + activity.getConfidence() );
-                    //tvDetectedActivity.setText("On Foot");
                     if( activity.getConfidence() >= 30 ) {
                         ContentValues cv = new ContentValues();
                         cv.put(Contract.ActivityRecordedEntry.COL_ACTIVITY_RECORDED, "OnFoot");
@@ -119,7 +113,6 @@ public class ActivityRecognizedService extends IntentService {
                 }
                 case DetectedActivity.RUNNING: {
                     Log.e( "ActivityRecogition", "Running: " + activity.getConfidence() );
-                    //tvDetectedActivity.setText("Running");
                     if( activity.getConfidence() >= 30 ) {
                         ContentValues cv = new ContentValues();
                         cv.put(Contract.ActivityRecordedEntry.COL_ACTIVITY_RECORDED, "Running");
@@ -132,7 +125,6 @@ public class ActivityRecognizedService extends IntentService {
                 }
                 case DetectedActivity.STILL: {
                     Log.e( "ActivityRecogition", "Still: " + activity.getConfidence() );
-                    //tvDetectedActivity.setText("Standing Still");
                     if( activity.getConfidence() >= 30 ) {
                         ContentValues cv = new ContentValues();
                         cv.put(Contract.ActivityRecordedEntry.COL_ACTIVITY_RECORDED, "StandingStill");
@@ -145,7 +137,6 @@ public class ActivityRecognizedService extends IntentService {
                 }
                 case DetectedActivity.TILTING: {
                     Log.e( "ActivityRecogition", "Tilting: " + activity.getConfidence() );
-                    //tvDetectedActivity.setText("Tilting");
                     if( activity.getConfidence() >= 30 ) {
                         ContentValues cv = new ContentValues();
                         cv.put(Contract.ActivityRecordedEntry.COL_ACTIVITY_RECORDED, "Tilting");
@@ -158,7 +149,6 @@ public class ActivityRecognizedService extends IntentService {
                 }
                 case DetectedActivity.WALKING: {
                     Log.e( "ActivityRecogition", "Walking: " + activity.getConfidence() );
-                    //tvDetectedActivity.setText("Walking");
                     if( activity.getConfidence() >= 30 ) {
                         ContentValues cv = new ContentValues();
                         cv.put(Contract.ActivityRecordedEntry.COL_ACTIVITY_RECORDED, "Walking");
@@ -171,7 +161,6 @@ public class ActivityRecognizedService extends IntentService {
                 }
                 case DetectedActivity.UNKNOWN: {
                     Log.e( "ActivityRecogition", "Unknown: " + activity.getConfidence() );
-                    //tvDetectedActivity.setText("Unknown");
                     if( activity.getConfidence() >= 30 ) {
                         ContentValues cv = new ContentValues();
                         cv.put(Contract.ActivityRecordedEntry.COL_ACTIVITY_RECORDED, "Unknown");
