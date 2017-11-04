@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -25,6 +26,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.ActivityRecognition;
 
+import static ch.ethz.vs.se.team7.carbonfootprintmonitor.Storage.SQLQueries.CREATE_TABLE_QUERY;
+
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
@@ -37,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private FloatingActionButton gpsToggleButton;
     private boolean energyDisplayFlag;
     private boolean gpsOn;
-
+    private SQLiteDatabase sqLiteDatabase;
     // table contents MainActivity
     private TextView legendTimeCO2;
     private TextView legendDistanceEnergy;
@@ -71,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        //sqLiteDatabase.execSQL(CREATE_TABLE_QUERY);
         // Get Intent which was started by LoginActivity and username
         Intent intent = getIntent();
         username = intent.getStringExtra(LoginActivity.EXTRA_USERNAME);

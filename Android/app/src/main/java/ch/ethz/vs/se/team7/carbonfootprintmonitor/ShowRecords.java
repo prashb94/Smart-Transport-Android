@@ -34,7 +34,6 @@ public class ShowRecords extends AppCompatActivity {
         setContentView(R.layout.activity_show_records);
         tableLayout=(TableLayout)findViewById(R.id.dbTable);
         dbAdapter = new DbHandler(this);
-
         displayDB();
     }
 
