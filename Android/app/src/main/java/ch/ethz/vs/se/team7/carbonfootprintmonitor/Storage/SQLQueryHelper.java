@@ -39,9 +39,11 @@ public class SQLQueryHelper{
         if(cursor.getCount() > 0){
             cursor.moveToFirst();
             do{
+                ArrayList<String> singleRow = new ArrayList<String>();
                 for(int colCount = 0; colCount < 5; colCount++){
-                    matrix.get(rowCount).add(cursor.getString(indices[colCount]));
+                    singleRow.add(cursor.getString(indices[colCount]));
                 }
+                matrix.add(singleRow);
                 rowCount++;
             }while(cursor.moveToNext());
         }

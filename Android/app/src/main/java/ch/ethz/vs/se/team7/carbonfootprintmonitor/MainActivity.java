@@ -38,7 +38,7 @@ import ch.ethz.vs.se.team7.carbonfootprintmonitor.Storage.SQLQueryHelper;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     // measurement interval in milliseconds
-    public static final int MEASUREMENT_INTERVAL = 10;
+    public static final int MEASUREMENT_INTERVAL = 1000;
 
     private LocationManager locationManager;
     private LocationListener locationListener;
@@ -407,7 +407,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             }
             if (walkLocations.size() > 1) {
                 for (int s = 0; s < walkLocations.size() - 1; s++) {
-                    walkValueDistance += walkLocations.get(s).distanceTo(walkLocations.get(s + 1));
+                    Location location1 = walkLocations.get(s);
+                    Location location2 = walkLocations.get(s + 1);
+                    if (location1.getLatitude() == 0.0 || location1.getLongitude() == 0.0 || location2.getLatitude() == 0.0 || location2.getLongitude() == 0.0) {
+                        continue;
+                    }
+                    walkValueDistance += location1.distanceTo(location2);
                 }
             }
             // ToDo: Add all locations (distances of all means of transport)
