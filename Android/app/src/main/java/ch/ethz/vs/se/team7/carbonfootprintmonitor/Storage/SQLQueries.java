@@ -13,4 +13,13 @@ public interface SQLQueries {
             + Contract.ActivityRecordedEntry.COL_SPEED + " DOUBLE NOT NULL, "
             + Contract.ActivityRecordedEntry.COL_LOCATION + " TEXT NOT NULL, "
             + Contract.ActivityRecordedEntry.COL_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP" + ");";
+    String SELECT_DAILY_VALUES = "SELECT * FROM "
+            + Contract.ActivityRecordedEntry.TABLE_NAME + " WHERE date("
+            + Contract.ActivityRecordedEntry.COL_TIMESTAMP + ") == date('now')";
+    String SELECT_WEEKLY_VALUES = "SELECT * FROM "
+            + Contract.ActivityRecordedEntry.TABLE_NAME + " WHERE date("
+            + Contract.ActivityRecordedEntry.COL_TIMESTAMP + ") > date('now', 'weekday 0', '-7 days')";
+    String SELECT_MONTHLY_VALUES = "SELECT * FROM "
+            + Contract.ActivityRecordedEntry.TABLE_NAME + " WHERE date("
+            + Contract.ActivityRecordedEntry.COL_TIMESTAMP + ") BETWEEN datetime('now', 'start of month') AND datetime('now', 'localtime')";
 }

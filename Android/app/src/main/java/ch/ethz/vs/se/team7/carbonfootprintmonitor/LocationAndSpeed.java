@@ -79,7 +79,7 @@ public class LocationAndSpeed extends AsyncTask<Void, Void, Void> {
                 Log.d("PERMISSION_GPS", "PERMISSION_DENIED_GPS");
                 return;
             }
-            locationManager.requestLocationUpdates("gps", 10, 0, locationListener);
+            locationManager.requestLocationUpdates("gps", MainActivity.MEASUREMENT_INTERVAL, 0, locationListener);
         }
         else
         {

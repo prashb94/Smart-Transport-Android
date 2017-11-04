@@ -77,12 +77,12 @@
             <TextView
                 android:id="@+id/table_text_1_1"
                 style="@style/table_text_view"
-                android:text="2h30min" />
+                android:text="0h0min" />
 
             <TextView
                 android:id="@+id/table_text_1_2"
                 style="@style/table_text_view"
-                android:text="5.7km" />
+                android:text="0.0m" />
 
         </TableRow>
 
@@ -98,12 +98,12 @@
             <TextView
                 android:id="@+id/table_text_2_1"
                 style="@style/table_text_view"
-                android:text="0h 30min" />
+                android:text="0h0min" />
 
             <TextView
                 android:id="@+id/table_text_2_2"
                 style="@style/table_text_view"
-                android:text="4km" />
+                android:text="0.0m" />
 
         </TableRow>
 
@@ -119,12 +119,12 @@
             <TextView
                 android:id="@+id/table_text_3_1"
                 style="@style/table_text_view"
-                android:text="0h 59min" />
+                android:text="0h0min" />
 
             <TextView
                 android:id="@+id/table_text_3_2"
                 style="@style/table_text_view"
-                android:text="33km" />
+                android:text="0.0m" />
         </TableRow>
 
         <TableRow
@@ -139,12 +139,12 @@
             <TextView
                 android:id="@+id/table_text_4_1"
                 style="@style/table_text_view"
-                android:text="1h 24min" />
+                android:text="0h0min" />
 
             <TextView
                 android:id="@+id/table_text_4_2"
                 style="@style/table_text_view"
-                android:text="19.4km" />
+                android:text="0.0m" />
         </TableRow>
     </TableLayout>
 

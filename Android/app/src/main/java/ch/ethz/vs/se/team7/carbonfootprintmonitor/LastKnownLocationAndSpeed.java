@@ -21,7 +21,7 @@ public class LastKnownLocationAndSpeed {
         if(lastDetectedSpeed != null)
             return lastDetectedSpeed;
         else
-            return "0.0 m/s";
+            return "0.0";
     }
 
     public static void setLastDetectedLocation(String lastDetectedLocation) {
