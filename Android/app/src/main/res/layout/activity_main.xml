@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/smart_energy_background_300"
     android:orientation="horizontal"
     tools:context="ch.ethz.vs.se.team7.carbonfootprintmonitor.MainActivity">
 
