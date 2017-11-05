@@ -79,7 +79,7 @@ public class ActivityRecognizedService extends IntentService {
                     Log.e( "ActivityRecogition", "In Vehicle: " + activity.getConfidence() );
                     if( activity.getConfidence() >= 30 ) {
                         ContentValues cv = new ContentValues();
-                        cv.put(Contract.ActivityRecordedEntry.COL_ACTIVITY_RECORDED, "Vehicle");
+                        cv.put(Contract.ActivityRecordedEntry.COL_ACTIVITY_RECORDED, Integer.toString(DetectedActivity.IN_VEHICLE));
                         cv.put(Contract.ActivityRecordedEntry.COL_CONFIDENCE, activity.getConfidence());
                         cv.put(Contract.ActivityRecordedEntry.COL_SPEED, lastDetectedSpeed);
                         cv.put(Contract.ActivityRecordedEntry.COL_LOCATION, lastDetectedLocation);
@@ -91,7 +91,7 @@ public class ActivityRecognizedService extends IntentService {
                     Log.e( "ActivityRecogition", "On Bicycle: " + activity.getConfidence() );
                     if( activity.getConfidence() >= 30 ) {
                         ContentValues cv = new ContentValues();
-                        cv.put(Contract.ActivityRecordedEntry.COL_ACTIVITY_RECORDED, "Bicycle");
+                        cv.put(Contract.ActivityRecordedEntry.COL_ACTIVITY_RECORDED, Integer.toString(DetectedActivity.ON_BICYCLE));
                         cv.put(Contract.ActivityRecordedEntry.COL_CONFIDENCE, activity.getConfidence());
                         cv.put(Contract.ActivityRecordedEntry.COL_SPEED, lastDetectedSpeed);
                         cv.put(Contract.ActivityRecordedEntry.COL_LOCATION, lastDetectedLocation);
@@ -103,7 +103,7 @@ public class ActivityRecognizedService extends IntentService {
                     Log.e( "ActivityRecogition", "On Foot: " + activity.getConfidence() );
                     if( activity.getConfidence() >= 30 ) {
                         ContentValues cv = new ContentValues();
-                        cv.put(Contract.ActivityRecordedEntry.COL_ACTIVITY_RECORDED, "OnFoot");
+                        cv.put(Contract.ActivityRecordedEntry.COL_ACTIVITY_RECORDED, Integer.toString(DetectedActivity.ON_FOOT));
                         cv.put(Contract.ActivityRecordedEntry.COL_CONFIDENCE, activity.getConfidence());
                         cv.put(Contract.ActivityRecordedEntry.COL_SPEED, lastDetectedSpeed);
                         cv.put(Contract.ActivityRecordedEntry.COL_LOCATION, lastDetectedLocation);
@@ -115,7 +115,7 @@ public class ActivityRecognizedService extends IntentService {
                     Log.e( "ActivityRecogition", "Running: " + activity.getConfidence() );
                     if( activity.getConfidence() >= 30 ) {
                         ContentValues cv = new ContentValues();
-                        cv.put(Contract.ActivityRecordedEntry.COL_ACTIVITY_RECORDED, "Running");
+                        cv.put(Contract.ActivityRecordedEntry.COL_ACTIVITY_RECORDED, Integer.toString(DetectedActivity.RUNNING));
                         cv.put(Contract.ActivityRecordedEntry.COL_CONFIDENCE, activity.getConfidence());
                         cv.put(Contract.ActivityRecordedEntry.COL_SPEED, lastDetectedSpeed);
                         cv.put(Contract.ActivityRecordedEntry.COL_LOCATION, lastDetectedLocation);
@@ -127,7 +127,7 @@ public class ActivityRecognizedService extends IntentService {
                     Log.e( "ActivityRecogition", "Still: " + activity.getConfidence() );
                     if( activity.getConfidence() >= 30 ) {
                         ContentValues cv = new ContentValues();
-                        cv.put(Contract.ActivityRecordedEntry.COL_ACTIVITY_RECORDED, "StandingStill");
+                        cv.put(Contract.ActivityRecordedEntry.COL_ACTIVITY_RECORDED, Integer.toString(DetectedActivity.STILL));
                         cv.put(Contract.ActivityRecordedEntry.COL_CONFIDENCE, activity.getConfidence());
                         cv.put(Contract.ActivityRecordedEntry.COL_SPEED, lastDetectedSpeed);
                         cv.put(Contract.ActivityRecordedEntry.COL_LOCATION, lastDetectedLocation);
@@ -139,7 +139,7 @@ public class ActivityRecognizedService extends IntentService {
                     Log.e( "ActivityRecogition", "Tilting: " + activity.getConfidence() );
                     if( activity.getConfidence() >= 30 ) {
                         ContentValues cv = new ContentValues();
-                        cv.put(Contract.ActivityRecordedEntry.COL_ACTIVITY_RECORDED, "Tilting");
+                        cv.put(Contract.ActivityRecordedEntry.COL_ACTIVITY_RECORDED, Integer.toString(DetectedActivity.TILTING));
                         cv.put(Contract.ActivityRecordedEntry.COL_CONFIDENCE, activity.getConfidence());
                         cv.put(Contract.ActivityRecordedEntry.COL_SPEED, lastDetectedSpeed);
                         cv.put(Contract.ActivityRecordedEntry.COL_LOCATION, lastDetectedLocation);
@@ -151,7 +151,7 @@ public class ActivityRecognizedService extends IntentService {
                     Log.e( "ActivityRecogition", "Walking: " + activity.getConfidence() );
                     if( activity.getConfidence() >= 30 ) {
                         ContentValues cv = new ContentValues();
-                        cv.put(Contract.ActivityRecordedEntry.COL_ACTIVITY_RECORDED, "Walking");
+                        cv.put(Contract.ActivityRecordedEntry.COL_ACTIVITY_RECORDED, Integer.toString(DetectedActivity.WALKING));
                         cv.put(Contract.ActivityRecordedEntry.COL_CONFIDENCE, activity.getConfidence());
                         cv.put(Contract.ActivityRecordedEntry.COL_SPEED, lastDetectedSpeed);
                         cv.put(Contract.ActivityRecordedEntry.COL_LOCATION, lastDetectedLocation);
@@ -163,7 +163,7 @@ public class ActivityRecognizedService extends IntentService {
                     Log.e( "ActivityRecogition", "Unknown: " + activity.getConfidence() );
                     if( activity.getConfidence() >= 30 ) {
                         ContentValues cv = new ContentValues();
-                        cv.put(Contract.ActivityRecordedEntry.COL_ACTIVITY_RECORDED, "Unknown");
+                        cv.put(Contract.ActivityRecordedEntry.COL_ACTIVITY_RECORDED, Integer.toString(DetectedActivity.UNKNOWN));
                         cv.put(Contract.ActivityRecordedEntry.COL_CONFIDENCE, activity.getConfidence());
                         cv.put(Contract.ActivityRecordedEntry.COL_SPEED, lastDetectedSpeed);
                         cv.put(Contract.ActivityRecordedEntry.COL_LOCATION, lastDetectedLocation);

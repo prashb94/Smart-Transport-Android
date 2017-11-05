@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.support.annotation.NonNull;
@@ -25,33 +26,76 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.ActivityRecognition;
+import com.google.android.gms.location.DetectedActivity;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
+import ch.ethz.vs.se.team7.carbonfootprintmonitor.Storage.SQLQueries;
+import ch.ethz.vs.se.team7.carbonfootprintmonitor.Storage.SQLQueryHelper;
 
 import static ch.ethz.vs.se.team7.carbonfootprintmonitor.Storage.SQLQueries.CREATE_TABLE_QUERY;
 
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+    // measurement interval in milliseconds
+    public static final int MEASUREMENT_INTERVAL = 1000;
 
     private LocationManager locationManager;
     private LocationListener locationListener;
+    private SQLQueryHelper sqlHelper;
+
+    public final int VEHICLE_TYPE_TRAM = 0;
+    public final int VEHICLE_TYPE_BUS = 1;
+    public final int VEHICLE_TYPE_REGIONAL_TRAIN = 2;
+    public final int VEHICLE_TYPE_CABLE_CAR = 3;
+    public final int VEHICLE_TYPE_BOAT = 4;
+    public final int VEHICLE_TYPE_SBAHN = 5;
+    public final int VEHICLE_TYPE_CAR = 6;
+    public final int VEHICLE_TYPE_WALK = 7;
+    public final int VEHICLE_TYPE_BIKE = 8;
+
+    public final int TIME_DAILY = 0;
+    public final int TIME_WEEKLY = 1;
+    public final int TIME_MONTHLY = 2;
 
 
     private String username;
     private FloatingActionButton energyToggleButton;
     private FloatingActionButton gpsToggleButton;
+    private Button dailyButton;
+    private Button weeklyButton;
+    private Button monthlyButton;
     private boolean energyDisplayFlag;
     private boolean gpsOn;
     private SQLiteDatabase sqLiteDatabase;
+    // defines current state of time aggregation (daily, weekly, monthly)
+    private int currentTimeOption;
     // table contents MainActivity
     private TextView legendTimeCO2;
     private TextView legendDistanceEnergy;
-    private TextView walkValue1;
-    private TextView walkValue2;
-    private TextView bikeValue1;
-    private TextView bikeValue2;
-    private TextView carValue1;
-    private TextView carValue2;
-    private TextView tramValue1;
-    private TextView tramValue2;
+    private TextView viewWalkValue1;
+    private TextView viewWalkValue2;
+    private TextView viewBikeValue1;
+    private TextView viewBikeValue2;
+    private TextView viewCarValue1;
+    private TextView viewCarValue2;
+    private TextView viewTramValue1;
+    private TextView viewTramValue2;
+
+    Map<Integer, ArrayList<Double>> dataTable;
+
+    // table contents as numbers for 1 = time and 2 = distance
+    private double walkValueTime;
+    private double walkValueDistance;
+    private double bikeValueTime;
+    private double bikeValueDistance;
+    private double carValueTime;
+    private double carValueDistance;
+    private double tramValueTime;
+    private double tramValueDistance;
 
     //Google Api client and Intent for location and speed
     public GoogleApiClient mApiClient;
@@ -87,6 +131,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         //AlertDialog Items.
         listOfTransportTypes = getResources().getStringArray(R.array.transport_types);
 
+        //Initiate SQLQueryHelper
+        sqlHelper = new SQLQueryHelper(MainActivity.this);
 
 
         //Button for AlertDialog, where current vehicleButton is chosen.
@@ -144,19 +190,45 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             }
         });
 
+        // Initialize time changing buttons
+        dailyButton = findViewById(R.id.button_day);
+        dailyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                changeTimeDisplay(TIME_DAILY);
+            }
+        });
+
+        weeklyButton = findViewById(R.id.button_week);
+        weeklyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                changeTimeDisplay(TIME_WEEKLY);
+            }
+        });
+
+        monthlyButton = findViewById(R.id.button_month);
+        monthlyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                changeTimeDisplay(TIME_MONTHLY);
+            }
+        });
+
         // Initialize table TextViews
         legendTimeCO2 = findViewById(R.id.table_text_0_1);
         legendDistanceEnergy = findViewById(R.id.table_text_0_2);
-        walkValue1 = findViewById(R.id.table_text_1_1);
-        walkValue2 = findViewById(R.id.table_text_1_2);
-        bikeValue1 = findViewById(R.id.table_text_2_1);
-        bikeValue2 = findViewById(R.id.table_text_2_2);
-        carValue1 = findViewById(R.id.table_text_3_1);
-        carValue2 = findViewById(R.id.table_text_3_2);
-        tramValue1 = findViewById(R.id.table_text_4_1);
-        tramValue2 = findViewById(R.id.table_text_4_2);
+        viewWalkValue1 = findViewById(R.id.table_text_1_1);
+        viewWalkValue2 = findViewById(R.id.table_text_1_2);
+        viewBikeValue1 = findViewById(R.id.table_text_2_1);
+        viewBikeValue2 = findViewById(R.id.table_text_2_2);
+        viewCarValue1 = findViewById(R.id.table_text_3_1);
+        viewCarValue2 = findViewById(R.id.table_text_3_2);
+        viewTramValue1 = findViewById(R.id.table_text_4_1);
+        viewTramValue2 = findViewById(R.id.table_text_4_2);
 
         energyDisplayFlag = false;
+        currentTimeOption = TIME_DAILY;
         gpsOn = false;
         gpsToggleButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#F44336")));
         gpsToggleButton.setImageResource(R.mipmap.ic_gps_off);
@@ -171,16 +243,17 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
     private void toggleEnergyDisplay() {
-        //ToDo: switch actual values in text views
         if (energyDisplayFlag) {
             energyDisplayFlag = false;
             legendTimeCO2.setText(getResources().getString(R.string.legend_time));
             legendDistanceEnergy.setText(getResources().getString(R.string.legend_distance));
+            refreshDataTable();
         }
         else {
             energyDisplayFlag = true;
             legendTimeCO2.setText(getResources().getString(R.string.legend_co2));
             legendDistanceEnergy.setText(getResources().getString(R.string.legend_energy));
+            refreshDataTable();
         }
     }
 
@@ -214,19 +287,156 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         }
     }
 
+    private void changeTimeDisplay(int timeOption) {
+        switch (timeOption) {
+            case TIME_DAILY:
+                currentTimeOption = TIME_DAILY;
+                break;
+            case TIME_WEEKLY:
+                currentTimeOption = TIME_WEEKLY;
+                break;
+            case TIME_MONTHLY:
+                currentTimeOption = TIME_MONTHLY;
+                break;
+            default:
+                try {
+                    throw new Exception("Time option not defined!");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+        }
+        refreshDataTable();
+    }
 
-    //Methods to convert kilometer and transport type to Primary Energy consumtion
+    /** Refresh data table in MainActivity to display numbers */
+    private void refreshDataTable() {
+        // read out data from DB and write aggregated data
+        getAggregatedValues(getDBValues());
+
+        if (energyDisplayFlag) {
+            viewWalkValue1.setText(convertToCO2(VEHICLE_TYPE_WALK, walkValueDistance));
+            viewWalkValue2.setText(convertToEnergy(VEHICLE_TYPE_WALK, walkValueDistance));
+            viewBikeValue1.setText(convertToCO2(VEHICLE_TYPE_BIKE, bikeValueDistance));
+            viewBikeValue2.setText(convertToEnergy(VEHICLE_TYPE_BIKE, bikeValueDistance));
+            viewCarValue1.setText(convertToCO2(VEHICLE_TYPE_CAR, carValueDistance));
+            viewCarValue2.setText(convertToEnergy(VEHICLE_TYPE_CAR, carValueDistance));
+            viewTramValue1.setText(convertToCO2(VEHICLE_TYPE_TRAM, tramValueDistance));
+            viewTramValue2.setText(convertToEnergy(VEHICLE_TYPE_TRAM, tramValueDistance));
+        }
+        else {
+            viewWalkValue1.setText(convertTime(walkValueTime));
+            viewWalkValue2.setText(String.format(getResources().getString(R.string.distance_unit_m), walkValueDistance));
+            viewBikeValue1.setText(convertTime(bikeValueTime));
+            viewBikeValue2.setText(String.format(getResources().getString(R.string.distance_unit_m), bikeValueDistance));
+            viewCarValue1.setText(convertTime(carValueTime));
+            viewCarValue2.setText(String.format(getResources().getString(R.string.distance_unit_m), carValueDistance));
+            viewTramValue1.setText(convertTime(tramValueTime));
+            viewTramValue2.setText(String.format(getResources().getString(R.string.distance_unit_m), tramValueDistance));
+        }
+
+    }
+
+    private String convertTime(double time) {
+        int hours = (int) (time / 3600);
+        int minutes = (int) (time - hours * 3600) / 60;
+        return String.format("%dh%dmin", hours, minutes);
+    }
+
+    private List<List<String>> getDBValues() {
+        switch (currentTimeOption) {
+            case TIME_DAILY:
+                return sqlHelper.getRecordsStringArray(SQLQueries.SELECT_DAILY_VALUES);
+            case TIME_WEEKLY:
+                return sqlHelper.getRecordsStringArray(SQLQueries.SELECT_WEEKLY_VALUES);
+            case TIME_MONTHLY:
+                return sqlHelper.getRecordsStringArray(SQLQueries.SELECT_MONTHLY_VALUES);
+            default:
+                try {
+                    throw new Exception("Time option not defined in getDBVAlues!");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+        }
+    }
+
+    private void getAggregatedValues(List<List<String>> dbValues) {
+        // reset values
+        walkValueTime = 0;
+        walkValueDistance = 0;
+        bikeValueTime = 0;
+        bikeValueDistance = 0;
+        carValueTime = 0;
+        carValueDistance = 0;
+        tramValueTime = 0;
+        tramValueDistance = 0;
+
+        List<Location> walkLocations = new ArrayList<>();
+        List<Location> bikeLocations = new ArrayList<>();
+        List<Location> carLocations = new ArrayList<>();
+        List<Location> tramLocations = new ArrayList<>();
+
+        for (int i = 0; i < dbValues.size(); i++) {
+            List<String> currentItem = dbValues.get(i);
+            for (int j = 0; j < currentItem.size(); j++) {
+                switch (Integer.parseInt(currentItem.get(1))) {
+                    case DetectedActivity.ON_FOOT:
+                    case DetectedActivity.WALKING:
+                    case DetectedActivity.RUNNING:
+                    case DetectedActivity.STILL:
+                    case DetectedActivity.TILTING:
+                    case DetectedActivity.UNKNOWN:
+                        walkValueTime += MEASUREMENT_INTERVAL / 1000;
+                        List<String> locationWalk = Arrays.asList(currentItem.get(4).split("\\s*,\\s*"));
+                        Location tempLocationWalk = new Location("");
+                        tempLocationWalk.setLatitude(Double.parseDouble(locationWalk.get(0)));
+                        tempLocationWalk.setLongitude(Double.parseDouble(locationWalk.get(1)));
+                        walkLocations.add(tempLocationWalk);
+                        break;
+                    case DetectedActivity.ON_BICYCLE:
+                        bikeValueTime += MEASUREMENT_INTERVAL / 1000;
+                        List<String> locationBike = Arrays.asList(currentItem.get(4).split("\\s*,\\s*"));
+                        Location tempLocationBike = new Location("");
+                        tempLocationBike.setLatitude(Double.parseDouble(locationBike.get(0)));
+                        tempLocationBike.setLongitude(Double.parseDouble(locationBike.get(1)));
+                        bikeLocations.add(tempLocationBike);
+                        break;
+                    case DetectedActivity.IN_VEHICLE:
+                    // ToDo: car vs tram and add locations to list
+                        carValueTime += MEASUREMENT_INTERVAL / 1000;
+                        tramValueTime += MEASUREMENT_INTERVAL / 1000;
+                        break;
+                }
+            }
+            if (walkLocations.size() > 1) {
+                for (int s = 0; s < walkLocations.size() - 1; s++) {
+                    Location location1 = walkLocations.get(s);
+                    Location location2 = walkLocations.get(s + 1);
+                    if (location1.getLatitude() == 0.0 || location1.getLongitude() == 0.0 || location2.getLatitude() == 0.0 || location2.getLongitude() == 0.0) {
+                        continue;
+                    }
+                    walkValueDistance += location1.distanceTo(location2);
+                }
+            }
+            // ToDo: Add all locations (distances of all means of transport)
+        }
+
+
+    }
+
+
+    //Methods to convert kilometer and transport type to Primary Energy consumption
     //and CO2 emissions.
-    private double convertToEnergy(int transportType, double distance) {
+    private String convertToEnergy(int transportType, double distance) {
         /*0 = tram
         * 1 = local bus
         * 2 = regional train
         * 3 = cable car
         * 4 = boat
         * 5 = S-Bahn
-        * Comment: We can add more veicles later on.
+        * Comment: We can add more vehicles later on.
         *
-        * Primary Energy consumtion is measured in ml gasonline/pkm.
+        * Primary Energy consumption is measured in ml gasoline/pkm.
         * BUT, now multiplies by 34.2 to get it converted into MJ.
         * */
         double energyConsumption;
@@ -244,14 +454,18 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             case 5: energyConsumption = distance * 20.4; //S-bahn
                 break;
             case 6: energyConsumption = distance * 100.9; //Car
-            //Should have try catch here?
+                break;
+            // For walk and bike
             default: energyConsumption = 0;
                 break;
         }
-        return Math.round((energyConsumption * 34.2 * 0.001) * 100) / 100; //Multiplies to get answer in MJ, instead of ml gasoline/km.
+        //Multiplies to get answer in MJ, instead of ml gasoline/km.
+        double result = Math.round((energyConsumption * 34.2 * 0.001) * 100) / 100;
+        return String.format(getResources().getString(R.string.energy_unit_MJ), result);
         // 34.2? -> Energy density of gasoline
     }
-    private double convertToCO2(int transportType, double distance) {
+
+    private String convertToCO2(int transportType, double distance) {
         // CO2 g/pkm
         double co2Consumption;
         switch (transportType) {
@@ -269,11 +483,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 break;
             case 6: co2Consumption = distance * 201.0; //Car
                 break;
-            //Should have try catch here?
+            // For walk and bike
             default: co2Consumption= 0;
                 break;
         }
-        return Math.round(co2Consumption * 100) / 100;
+        double result = Math.round(co2Consumption * 100) / 100;
+        return String.format(getResources().getString(R.string.co2_unit_g), result);
     }
 
     @Override
@@ -282,7 +497,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         pendingIntent = PendingIntent.getService(MainActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         Log.d("CUR_CONTEXT","CREATE_PENDING_INTENT");
         //Granularity of activity updates = 1000. TODO: Add settings option to set granularity
-        ActivityRecognition.ActivityRecognitionApi.requestActivityUpdates(mApiClient, 10, pendingIntent);
+        ActivityRecognition.ActivityRecognitionApi.requestActivityUpdates(mApiClient, MEASUREMENT_INTERVAL, pendingIntent);
     }
 
     @Override

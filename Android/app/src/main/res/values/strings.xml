@@ -34,8 +34,8 @@
 
     <string name="speed_unit_kmh">%.2km/h</string>
     <string name="speed_unit_ms">%.2fm/s</string>
-    <string name="energy_unit_kwh">%.2fkWh</string>
-    <string name="co2_unit_g">%.2fg</string>
+    <string name="energy_unit_MJ">%.2fMJ</string>
+    <string name="co2_unit_g">%.2fg/km</string>
     <string name="co2_unit_kg">%.2fkg</string>
     <string name="distance_unit_km">%.2fkm</string>
     <string name="distance_unit_m">%.2fm</string>

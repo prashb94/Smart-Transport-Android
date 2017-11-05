@@ -25,7 +25,7 @@ public class SQLQueryHelper{
         sqLiteDatabase = dbHandler.getReadableDatabase();
     }
 
-    public static List<List<String>> getRecordsStringArray(String SQLQuery){
+    public List<List<String>> getRecordsStringArray(String SQLQuery){
         Cursor cursor =  sqLiteDatabase.rawQuery(SQLQuery, null);
         Integer[] indices = new Integer[]{
                 cursor.getColumnIndex(Contract.ActivityRecordedEntry.COL_TIMESTAMP),
@@ -36,16 +36,18 @@ public class SQLQueryHelper{
 
         List<List<String>> matrix = new ArrayList<List<String>>();
         int rowCount = 0;
-        int colCount = 0;
         if(cursor.getCount() > 0){
             cursor.moveToFirst();
             do{
-                matrix.get(rowCount).add(cursor.getString(indices[colCount]));
-                colCount++;
+                ArrayList<String> singleRow = new ArrayList<String>();
+                for(int colCount = 0; colCount < 5; colCount++){
+                    singleRow.add(cursor.getString(indices[colCount]));
+                }
+                matrix.add(singleRow);
+                rowCount++;
             }while(cursor.moveToNext());
-            rowCount++;
         }
-
+        cursor.close();
         return matrix;
     }
 }
