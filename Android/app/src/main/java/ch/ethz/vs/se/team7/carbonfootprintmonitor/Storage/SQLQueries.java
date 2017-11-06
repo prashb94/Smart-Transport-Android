@@ -22,4 +22,6 @@ public interface SQLQueries {
     String SELECT_MONTHLY_VALUES = "SELECT * FROM "
             + Contract.ActivityRecordedEntry.TABLE_NAME + " WHERE date("
             + Contract.ActivityRecordedEntry.COL_TIMESTAMP + ") BETWEEN datetime('now', 'start of month') AND datetime('now', 'localtime')";
+    String GET_PIE_CHART_DATA = "SELECT COUNT(" + Contract.ActivityRecordedEntry.COL_ACTIVITY_RECORDED + "), " + Contract.ActivityRecordedEntry.COL_ACTIVITY_RECORDED
+            + " FROM " + Contract.ActivityRecordedEntry.TABLE_NAME + " GROUP BY " + Contract.ActivityRecordedEntry.COL_ACTIVITY_RECORDED;
 }

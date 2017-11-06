@@ -49,8 +49,8 @@ import static ch.ethz.vs.se.team7.carbonfootprintmonitor.Storage.SQLQueries.CREA
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     // measurement interval in milliseconds
-    public static final int MEASUREMENT_INTERVAL = 1000;
-
+    public static int MEASUREMENT_INTERVAL = 1000;
+    private SharedPreferences sharedPreferences;
     private LocationManager locationManager;
     private LocationListener locationListener;
     private SQLQueryHelper sqlHelper;
@@ -68,7 +68,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     public final int TIME_DAILY = 0;
     public final int TIME_WEEKLY = 1;
     public final int TIME_MONTHLY = 2;
-
 
     private String username;
     private FloatingActionButton energyToggleButton;
@@ -111,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private PendingIntent pendingIntent;
     private Intent intent;
     private Button viewDbButton;
+    private Button pieChartButton;
 
     int transportTypeInt;
     String transportTypeString;
@@ -205,6 +205,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             }
         });
 
+        pieChartButton = findViewById(R.id.pieChartButton);
+        pieChartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewPieChart(view);
+            }
+        });
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         //DEBUG
         /*
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -251,6 +259,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         if (gpsOn) {
             gpsOn = false;
             // set fab to red
+            MEASUREMENT_INTERVAL = sharedPreferences.getInt("refreshInterval", 10);
             gpsToggleButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#F44336")));
             gpsToggleButton.setImageResource(R.mipmap.ic_gps_off);
             Log.d("CUR_CONTEXT","TOGGLE=OFF");
@@ -265,6 +274,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         else {
             gpsOn = true;
             // set fab to green
+            MEASUREMENT_INTERVAL = sharedPreferences.getInt("refreshInterval", 10);
             gpsToggleButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#4CAF50")));
             gpsToggleButton.setImageResource(R.mipmap.ic_gps_on);
             //TODO: Monitoring flag checks
@@ -304,6 +314,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private void refreshDataTable() {
         // read out data from DB and write aggregated data
         getAggregatedValues(getDBValues());
+        MEASUREMENT_INTERVAL = sharedPreferences.getInt("refreshInterval", 10);
 
         if (energyDisplayFlag) {
             viewWalkValue1.setText(convertToCO2(VEHICLE_TYPE_WALK, walkValueDistance));
@@ -362,6 +373,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         carValueDistance = 0;
         tramValueTime = 0;
         tramValueDistance = 0;
+        MEASUREMENT_INTERVAL = sharedPreferences.getInt("refreshInterval", 10);
 
         List<Location> walkLocations = new ArrayList<>();
         List<Location> bikeLocations = new ArrayList<>();
@@ -500,10 +512,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
+
         intent = new Intent(MainActivity.this, ActivityRecognizedService.class);
         pendingIntent = PendingIntent.getService(MainActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         Log.d("CUR_CONTEXT","CREATE_PENDING_INTENT");
-        //Granularity of activity updates = 1000. TODO: Add settings option to set granularity
         ActivityRecognition.ActivityRecognitionApi.requestActivityUpdates(mApiClient, MEASUREMENT_INTERVAL, pendingIntent);
     }
 
@@ -519,8 +531,16 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
 
     public void viewDatabase(View view) {
+        MEASUREMENT_INTERVAL = sharedPreferences.getInt("refreshInterval", 10);
         Context thisActivity = MainActivity.this;
         Class destinationActivity = ShowRecords.class;
+        Intent intent = new Intent(thisActivity, destinationActivity);
+        startActivity(intent);
+    }
+
+    public void viewPieChart(View view) {
+        Context thisActivity = MainActivity.this;
+        Class destinationActivity = PieChart.class;
         Intent intent = new Intent(thisActivity, destinationActivity);
         startActivity(intent);
     }
