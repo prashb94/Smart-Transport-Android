@@ -23,4 +23,12 @@
         android:summary="Interval for database updates (Lower => Higher Accuracy => Slower performance)"
         android:max="1000"
         android:defaultValue="10" />
+
+
+    <SeekBarPreference
+        android:key="confidenceThreshold"
+        android:title="Activity Confidence Filter"
+        android:summary="Record activities only above a certain confidence"
+        android:max="100"
+        android:defaultValue="30" />
 </PreferenceScreen>

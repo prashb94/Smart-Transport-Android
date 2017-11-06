@@ -24,6 +24,8 @@ public class ActivityRecognizedService extends IntentService {
 
     private DbHandler dbAdapter;
 
+    private int CONFIDENCE_THRESHOLD = 30;
+
     private SQLiteDatabase activityRecordedDb;
 
     private LastKnownLocationAndSpeed lastKnownLocationAndSpeed;
@@ -50,7 +52,8 @@ public class ActivityRecognizedService extends IntentService {
         dbAdapter = new DbHandler(this);
 
         activityRecordedDb = dbAdapter.getWritableDatabase();
-
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        CONFIDENCE_THRESHOLD = sharedPreferences.getInt("confidenceThreshold", 30);
 
         if (ActivityRecognitionResult.hasResult(intent)) {
             ActivityRecognitionResult result = ActivityRecognitionResult.extractResult(intent);
@@ -84,7 +87,6 @@ public class ActivityRecognizedService extends IntentService {
         and the combination of parameters.
          */
         try{
-            sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
             int numberOfRecords = sharedPreferences.getInt("nRecords", 50);
             int tolerancePercentage = sharedPreferences.getInt("tolerance", 10);
             int histStillValues = 0;
@@ -160,6 +162,8 @@ public class ActivityRecognizedService extends IntentService {
 
         lastKnownLocationAndSpeed = new LastKnownLocationAndSpeed();
 
+        CONFIDENCE_THRESHOLD = sharedPreferences.getInt("confidenceThreshold", 30);
+
         lastDetectedSpeed = lastKnownLocationAndSpeed.getLastDetectedSpeed();
 
         lastDetectedLocation = lastKnownLocationAndSpeed.getLastDetectedLocation();
@@ -168,7 +172,7 @@ public class ActivityRecognizedService extends IntentService {
             switch( activity.getType() ) {
                 case DetectedActivity.IN_VEHICLE: {
                     Log.e( "ActivityRecogition", "In Vehicle: " + activity.getConfidence() );
-                    if( activity.getConfidence() >= 30 ) {
+                    if( activity.getConfidence() >= CONFIDENCE_THRESHOLD ) {
                         ContentValues cv = new ContentValues();
                         cv.put(Contract.ActivityRecordedEntry.COL_ACTIVITY_RECORDED, Integer.toString(DetectedActivity.IN_VEHICLE));
                         String carTramDifferentiator =  carTramDifferentiator();
@@ -181,7 +185,7 @@ public class ActivityRecognizedService extends IntentService {
                 }
                 case DetectedActivity.ON_BICYCLE: {
                     Log.e( "ActivityRecogition", "On Bicycle: " + activity.getConfidence() );
-                    if( activity.getConfidence() >= 30 ) {
+                    if( activity.getConfidence() >= CONFIDENCE_THRESHOLD ) {
                         ContentValues cv = new ContentValues();
                         cv.put(Contract.ActivityRecordedEntry.COL_ACTIVITY_RECORDED, Integer.toString(DetectedActivity.ON_BICYCLE));
                         cv.put(Contract.ActivityRecordedEntry.COL_CONFIDENCE, activity.getConfidence());
@@ -193,7 +197,7 @@ public class ActivityRecognizedService extends IntentService {
                 }
                 case DetectedActivity.ON_FOOT: {
                     Log.e( "ActivityRecogition", "On Foot: " + activity.getConfidence() );
-                    if( activity.getConfidence() >= 30 ) {
+                    if( activity.getConfidence() >= CONFIDENCE_THRESHOLD ) {
                         ContentValues cv = new ContentValues();
                         cv.put(Contract.ActivityRecordedEntry.COL_ACTIVITY_RECORDED, Integer.toString(DetectedActivity.ON_FOOT));
                         cv.put(Contract.ActivityRecordedEntry.COL_CONFIDENCE, activity.getConfidence());
@@ -205,7 +209,7 @@ public class ActivityRecognizedService extends IntentService {
                 }
                 case DetectedActivity.RUNNING: {
                     Log.e( "ActivityRecogition", "Running: " + activity.getConfidence() );
-                    if( activity.getConfidence() >= 30 ) {
+                    if( activity.getConfidence() >= CONFIDENCE_THRESHOLD ) {
                         ContentValues cv = new ContentValues();
                         cv.put(Contract.ActivityRecordedEntry.COL_ACTIVITY_RECORDED, Integer.toString(DetectedActivity.RUNNING));
                         cv.put(Contract.ActivityRecordedEntry.COL_CONFIDENCE, activity.getConfidence());
@@ -217,7 +221,7 @@ public class ActivityRecognizedService extends IntentService {
                 }
                 case DetectedActivity.STILL: {
                     Log.e( "ActivityRecogition", "Still: " + activity.getConfidence() );
-                    if( activity.getConfidence() >= 30 ) {
+                    if( activity.getConfidence() >= CONFIDENCE_THRESHOLD ) {
                         ContentValues cv = new ContentValues();
                         cv.put(Contract.ActivityRecordedEntry.COL_ACTIVITY_RECORDED, Integer.toString(DetectedActivity.STILL));
                         cv.put(Contract.ActivityRecordedEntry.COL_CONFIDENCE, activity.getConfidence());
@@ -229,7 +233,7 @@ public class ActivityRecognizedService extends IntentService {
                 }
                 case DetectedActivity.WALKING: {
                     Log.e( "ActivityRecogition", "Walking: " + activity.getConfidence() );
-                    if( activity.getConfidence() >= 30 ) {
+                    if( activity.getConfidence() >= CONFIDENCE_THRESHOLD ) {
                         ContentValues cv = new ContentValues();
                         cv.put(Contract.ActivityRecordedEntry.COL_ACTIVITY_RECORDED, Integer.toString(DetectedActivity.WALKING));
                         cv.put(Contract.ActivityRecordedEntry.COL_CONFIDENCE, activity.getConfidence());
@@ -241,7 +245,7 @@ public class ActivityRecognizedService extends IntentService {
                 }
                 case DetectedActivity.UNKNOWN: {
                     Log.e( "ActivityRecogition", "Unknown: " + activity.getConfidence() );
-                    if( activity.getConfidence() >= 30 ) {
+                    if( activity.getConfidence() >= CONFIDENCE_THRESHOLD ) {
                         ContentValues cv = new ContentValues();
                         cv.put(Contract.ActivityRecordedEntry.COL_ACTIVITY_RECORDED, Integer.toString(DetectedActivity.UNKNOWN));
                         cv.put(Contract.ActivityRecordedEntry.COL_CONFIDENCE, activity.getConfidence());

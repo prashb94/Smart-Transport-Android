@@ -373,7 +373,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         carValueDistance = 0;
         tramValueTime = 0;
         tramValueDistance = 0;
-        MEASUREMENT_INTERVAL = sharedPreferences.getInt("refreshInterval", 10);
 
         List<Location> walkLocations = new ArrayList<>();
         List<Location> bikeLocations = new ArrayList<>();
@@ -421,7 +420,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                             Location templocationTram = new Location("");
                             templocationTram.setLatitude(Double.parseDouble(locationTram.get(0)));
                             templocationTram.setLongitude(Double.parseDouble(locationTram.get(1)));
-                            carLocations.add(templocationTram);
+                            tramLocations.add(templocationTram);
                             tramValueTime += MEASUREMENT_INTERVAL / 1000;
                         }
                         break;
@@ -437,7 +436,36 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     walkValueDistance += location1.distanceTo(location2);
                 }
             }
-            // ToDo: Add all locations (distances of all means of transport)
+            if (bikeLocations.size() > 1) {
+                for (int s = 0; s < bikeLocations.size() - 1; s++) {
+                    Location location1 = bikeLocations.get(s);
+                    Location location2 = bikeLocations.get(s + 1);
+                    if (location1.getLatitude() == 0.0 || location1.getLongitude() == 0.0 || location2.getLatitude() == 0.0 || location2.getLongitude() == 0.0) {
+                        continue;
+                    }
+                    bikeValueDistance += location1.distanceTo(location2);
+                }
+            }
+            if (carLocations.size() > 1) {
+                for (int s = 0; s < carLocations.size() - 1; s++) {
+                    Location location1 = carLocations.get(s);
+                    Location location2 = carLocations.get(s + 1);
+                    if (location1.getLatitude() == 0.0 || location1.getLongitude() == 0.0 || location2.getLatitude() == 0.0 || location2.getLongitude() == 0.0) {
+                        continue;
+                    }
+                    carValueDistance += location1.distanceTo(location2);
+                }
+            }
+            if (tramLocations.size() > 1) {
+                for (int s = 0; s < tramLocations.size() - 1; s++) {
+                    Location location1 = tramLocations.get(s);
+                    Location location2 = tramLocations.get(s + 1);
+                    if (location1.getLatitude() == 0.0 || location1.getLongitude() == 0.0 || location2.getLatitude() == 0.0 || location2.getLongitude() == 0.0) {
+                        continue;
+                    }
+                    tramValueDistance += location1.distanceTo(location2);
+                }
+            }
         }
 
 
