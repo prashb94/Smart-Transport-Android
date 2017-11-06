@@ -71,7 +71,7 @@ public class ActivityRecognizedService extends IntentService {
         }
     }
 
-    private String carTramDifferentiator(){
+    private String carTramDifferentiator() {
         /*
         While travelling in a tram, the activity observed was blocks of - "Standing Still" and blocks of "In Vehicle" with a certain maximum speed.
         The logic used here is that such a pattern indicates with a high probability that the user is in a tram. Integrating google maps is an option but that too comes with the limit of experimental error.
@@ -83,31 +83,31 @@ public class ActivityRecognizedService extends IntentService {
         and if the current speed is close to the average speed in this observation interval we can say with a high probability that the user is in a Tram/Bus. This probability depends on the country/location
         and the combination of parameters.
          */
+        try{
+            sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+            int numberOfRecords = sharedPreferences.getInt("nRecords", 50);
+            int tolerancePercentage = sharedPreferences.getInt("tolerance", 10);
+            int histStillValues = 0;
+            int histVehicleValues = 0;
+            double avgSpeed = 0;
 
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        int numberOfRecords = sharedPreferences.getInt("nRecords", 50);
-        int tolerancePercentage = sharedPreferences.getInt("tolerance", 10);
-        int histStillValues = 0;
-        int histVehicleValues = 0;
-        double avgSpeed = 0;
-
-        SQLiteDatabase sqLiteDatabase;
+            SQLiteDatabase sqLiteDatabase;
 
 
-        String customSQLQuery = "SELECT COUNT(" + Contract.ActivityRecordedEntry.COL_ACTIVITY_RECORDED + "), " +  Contract.ActivityRecordedEntry.COL_ACTIVITY_RECORDED
-                + ", AVG(CAST(" + Contract.ActivityRecordedEntry.COL_SPEED + " as float))" +
-                " FROM ( SELECT * FROM " + Contract.ActivityRecordedEntry.TABLE_NAME + " LIMIT" + numberOfRecords + ") "
-                + " GROUP BY " + Contract.ActivityRecordedEntry.COL_ACTIVITY_RECORDED;
+            String customSQLQuery = "SELECT COUNT(" + Contract.ActivityRecordedEntry.COL_ACTIVITY_RECORDED + "), " +  Contract.ActivityRecordedEntry.COL_ACTIVITY_RECORDED
+                    + ", AVG(CAST(" + Contract.ActivityRecordedEntry.COL_SPEED + " as float))" +
+                    " FROM ( SELECT * FROM " + Contract.ActivityRecordedEntry.TABLE_NAME + " LIMIT" + numberOfRecords + ") "
+                    + " GROUP BY " + Contract.ActivityRecordedEntry.COL_ACTIVITY_RECORDED;
 
-        DbHandler dbHandler = new DbHandler(this);
-        sqLiteDatabase = dbHandler.getReadableDatabase();
-        Cursor cursor =  sqLiteDatabase.rawQuery(customSQLQuery, null);
-        String[] colNames = cursor.getColumnNames();
+            DbHandler dbHandler = new DbHandler(this);
+            sqLiteDatabase = dbHandler.getReadableDatabase();
+            Cursor cursor =  sqLiteDatabase.rawQuery(customSQLQuery, null);
+            String[] colNames = cursor.getColumnNames();
 
-        // Iterate over returned records, namely number of times Standing Still and number of times in Vehicle, while accumulating the average speed
-        if(cursor.getCount() > 0){
-            cursor.moveToFirst();
-            do{
+            // Iterate over returned records, namely number of times Standing Still and number of times in Vehicle, while accumulating the average speed
+            if(cursor.getCount() > 0){
+                cursor.moveToFirst();
+                do{
                     switch(Integer.parseInt(cursor.getString(cursor.getColumnIndex(colNames[1])))){
                         case DetectedActivity.ON_FOOT:
                         case DetectedActivity.WALKING:
@@ -121,35 +121,40 @@ public class ActivityRecognizedService extends IntentService {
                             histVehicleValues += Integer.parseInt(cursor.getString(cursor.getColumnIndex(colNames[0])));
                             break;
 
-                }
-            }while(cursor.moveToNext());
-        }
+                    }
+                }while(cursor.moveToNext());
+            }
 
-        cursor.close();
-        sqLiteDatabase.close();
+            cursor.close();
+            sqLiteDatabase.close();
 
-        if(histStillValues == 0 && histVehicleValues == 0){
+            if(histStillValues == 0 && histVehicleValues == 0){
+                return "CAR";
+            }
+
+            //In a tram only 2 possible cases - Standing Still, or moving. Average speed across these 2 cases.
+            avgSpeed = avgSpeed/2;
+
+            double histStillPercentage = (histStillValues/(histStillValues+histVehicleValues)) * 100;
+            double histVehiclePercentage = (histVehicleValues/(histStillValues+histVehicleValues)) * 100;
+
+            boolean overlapHist = ((histStillPercentage + tolerancePercentage) >= histVehiclePercentage)
+                    || ((histStillPercentage - tolerancePercentage) <= histVehiclePercentage);
+
+            boolean overlapSpeed = ((tolerancePercentage * Double.parseDouble(lastDetectedSpeed)/100) + Double.parseDouble(lastDetectedSpeed) >= avgSpeed);
+
+            if(overlapHist && overlapSpeed){
+                return "TRAM";
+            }
+            else
+            {
+                return "CAR";
+            }
+        } catch (Exception e){
+            Log.e("ERROR DIFF TRAM/CAR", e.getStackTrace().toString());
             return "CAR";
         }
 
-        //In a tram only 2 possible cases - Standing Still, or moving. Average speed across these 2 cases.
-        avgSpeed = avgSpeed/2;
-
-        double histStillPercentage = (histStillValues/(histStillValues+histVehicleValues)) * 100;
-        double histVehiclePercentage = (histVehicleValues/(histStillValues+histVehicleValues)) * 100;
-
-        boolean overlapHist = ((histStillPercentage + tolerancePercentage) >= histVehiclePercentage)
-                          || ((histStillPercentage - tolerancePercentage) <= histVehiclePercentage);
-
-        boolean overlapSpeed = ((tolerancePercentage * Double.parseDouble(lastDetectedSpeed)/100) + Double.parseDouble(lastDetectedSpeed) >= avgSpeed);
-
-        if(overlapHist && overlapSpeed){
-            return "TRAM";
-        }
-        else
-        {
-            return "CAR";
-        }
     }
     private void handleDetectedActivities(List<DetectedActivity> probableActivities) {
 
