@@ -28,8 +28,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private FloatingActionButton loginButton;
 
-    private LocationAndSpeed asyncUpdate;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

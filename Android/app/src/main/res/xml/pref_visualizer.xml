@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <SeekBarPreference
+        android:key="nRecords"
+        android:title="Number of Records"
+        android:summary="Select number of past records to consider for differentiation"
+        android:max="1000"
+        android:min="10"
+        android:defaultValue="50" />
+
+    <SeekBarPreference
+        android:key="tolerance"
+        android:title="Tolerance"
+        android:summary="Select Tolerance Percentage"
+        android:max="50"
+        android:defaultValue="10" />
+</PreferenceScreen>

@@ -4,7 +4,9 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.location.Location;
@@ -15,7 +17,11 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -33,6 +39,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import ch.ethz.vs.se.team7.carbonfootprintmonitor.Storage.Contract;
+import ch.ethz.vs.se.team7.carbonfootprintmonitor.Storage.DbHandler;
 import ch.ethz.vs.se.team7.carbonfootprintmonitor.Storage.SQLQueries;
 import ch.ethz.vs.se.team7.carbonfootprintmonitor.Storage.SQLQueryHelper;
 
@@ -104,9 +112,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private Intent intent;
     private Button viewDbButton;
 
-    //alertDialog for Transport Types
-    Button vehicleButton;
-    String[] listOfTransportTypes;
     int transportTypeInt;
     String transportTypeString;
 
@@ -118,6 +123,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
         //sqLiteDatabase.execSQL(CREATE_TABLE_QUERY);
         // Get Intent which was started by LoginActivity and username
         Intent intent = getIntent();
@@ -125,51 +132,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         TextView welcomeUser = findViewById(R.id.welcome_user);
         welcomeUser.setText(getResources().getString(R.string.live_green, username));
 
-        //AlertDialog. How often should we be able to ask this question?
-        vehicleButton = (Button) findViewById(R.id.vehicleDialogBtn);
-
-        //AlertDialog Items.
-        listOfTransportTypes = getResources().getStringArray(R.array.transport_types);
-
         //Initiate SQLQueryHelper
         sqlHelper = new SQLQueryHelper(MainActivity.this);
-
-
-        //Button for AlertDialog, where current vehicleButton is chosen.
-        vehicleButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Creates the AlertDialog.
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setTitle("What vehicleButton are you using?");
-                builder.setSingleChoiceItems(listOfTransportTypes, -1, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int chosenTranportType) {
-                        //String is not needed as our convertion method uses INT.
-                        transportTypeString = listOfTransportTypes[chosenTranportType];
-                        transportTypeInt = chosenTranportType;
-
-                    }
-                });
-                builder.setCancelable(false);
-                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        StringBuilder typeStringBuilder = new StringBuilder();
-                        typeStringBuilder.append(transportTypeString);
-                        typeStringBuilder.append(" Selected");
-
-                        //Just to make it clear what was picked, we show the user what he vehicleButton he
-                        // picked using a Toast(small message pop-up message in android.
-                        Toast.makeText(getApplicationContext(), typeStringBuilder, Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-                AlertDialog alert = builder.create();
-                alert.show();
-            }
-        });
-
 
         // Initialize (CO2/energy) / (h/km) toggle button
         energyToggleButton = findViewById(R.id.fab_toggle_energy);
@@ -240,6 +204,32 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 viewDatabase(view);
             }
         });
+
+        //DEBUG
+        /*
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        int numberOfRecords = sharedPreferences.getInt("nRecords", 50);
+        int tolerancePercentage = sharedPreferences.getInt("tolerance", 10);
+
+        System.out.println("------------------GOT------------------\nNumberOfRecords = " + numberOfRecords + "\ntolerance = " + tolerancePercentage);
+        String testQuery = "SELECT * FROM " + Contract.ActivityRecordedEntry.TABLE_NAME;
+        String customSQLQuery = "SELECT COUNT(" + Contract.ActivityRecordedEntry.COL_ACTIVITY_RECORDED + "), " +  Contract.ActivityRecordedEntry.COL_ACTIVITY_RECORDED + ", AVG(CAST(" + Contract.ActivityRecordedEntry.COL_SPEED + " as float))" +
+                " FROM ( SELECT * FROM " + Contract.ActivityRecordedEntry.TABLE_NAME + " LIMIT 100) " + " GROUP BY " + Contract.ActivityRecordedEntry.COL_ACTIVITY_RECORDED;
+
+        DbHandler dbHandler = new DbHandler(this);
+        sqLiteDatabase = dbHandler.getReadableDatabase();
+        Cursor cursor =  sqLiteDatabase.rawQuery(customSQLQuery, null);
+        String[] colNames = cursor.getColumnNames();
+        if(cursor.getCount() > 0){
+            cursor.moveToFirst();
+            do{
+                for(int colCount = 0; colCount < colNames.length; colCount++){
+                    System.out.print(cursor.getString(cursor.getColumnIndex(colNames[colCount])) + "         ");
+                }
+                System.out.println("");
+            }while(cursor.moveToNext());
+        }
+        cursor.close(); */
     }
 
     private void toggleEnergyDisplay() {
@@ -286,6 +276,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         }
     }
+
+
 
     private void changeTimeDisplay(int timeOption) {
         switch (timeOption) {
@@ -384,7 +376,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     case DetectedActivity.WALKING:
                     case DetectedActivity.RUNNING:
                     case DetectedActivity.STILL:
-                    case DetectedActivity.TILTING:
                     case DetectedActivity.UNKNOWN:
                         walkValueTime += MEASUREMENT_INTERVAL / 1000;
                         List<String> locationWalk = Arrays.asList(currentItem.get(4).split("\\s*,\\s*"));
@@ -402,9 +393,25 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                         bikeLocations.add(tempLocationBike);
                         break;
                     case DetectedActivity.IN_VEHICLE:
-                    // ToDo: car vs tram and add locations to list
-                        carValueTime += MEASUREMENT_INTERVAL / 1000;
-                        tramValueTime += MEASUREMENT_INTERVAL / 1000;
+                        char carOrTram = currentItem.get(2).charAt(currentItem.get(2).length()-1);
+                        if (carOrTram == 'R'){
+                            //CAR
+                            List<String> locationCar = Arrays.asList(currentItem.get(4).split("\\s*,\\s*"));
+                            Location templocationCar = new Location("");
+                            templocationCar.setLatitude(Double.parseDouble(locationCar.get(0)));
+                            templocationCar.setLongitude(Double.parseDouble(locationCar.get(1)));
+                            carLocations.add(templocationCar);
+                            carValueTime += MEASUREMENT_INTERVAL / 1000;
+                        }
+                        else{
+                            //TRAM
+                            List<String> locationTram = Arrays.asList(currentItem.get(4).split("\\s*,\\s*"));
+                            Location templocationTram = new Location("");
+                            templocationTram.setLatitude(Double.parseDouble(locationTram.get(0)));
+                            templocationTram.setLongitude(Double.parseDouble(locationTram.get(1)));
+                            carLocations.add(templocationTram);
+                            tramValueTime += MEASUREMENT_INTERVAL / 1000;
+                        }
                         break;
                 }
             }
@@ -518,5 +525,22 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         startActivity(intent);
     }
 
+    //Menu for shared preferences
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.action_settings){
+            Intent startSettingsActivity = new Intent(this, SettingsActivity.class);
+            startActivity(startSettingsActivity);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

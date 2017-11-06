@@ -3,6 +3,7 @@
     <string name="helloworld">Hello World! I am at </string>
     <string name="location">0.0, 0.0</string>
     <string name="speed">0.0 m/s</string>
+    <string name="action_settings">Settings</string>
 
     <string name="co2_monitor">Carbon Footprint Monitor</string>
     <string name="smart_transport">Smart Transport</string>
@@ -14,16 +15,6 @@
     <!--Main Activity-->
     <string name="live_green">%s, live green!</string>
 
-    <!--AlertDialog-->
-    <string-array name="transport_types">
-        <item>Tram</item>
-        <item>Local Bus</item>
-        <item>Regional Train</item>
-        <item>Cable Car</item>
-        <item>Boat</item>
-        <item>S-Bahn</item>
-        <item>Car</item>
-    </string-array>
 
     <!--Legend for Table in MainActivity-->
     <string name="legend_transport">Transport</string>

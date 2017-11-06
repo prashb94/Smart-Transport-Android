@@ -27,24 +27,16 @@ public class SQLQueryHelper{
 
     public List<List<String>> getRecordsStringArray(String SQLQuery){
         Cursor cursor =  sqLiteDatabase.rawQuery(SQLQuery, null);
-        Integer[] indices = new Integer[]{
-                cursor.getColumnIndex(Contract.ActivityRecordedEntry.COL_TIMESTAMP),
-                cursor.getColumnIndex(Contract.ActivityRecordedEntry.COL_ACTIVITY_RECORDED),
-                cursor.getColumnIndex(Contract.ActivityRecordedEntry.COL_CONFIDENCE),
-                cursor.getColumnIndex(Contract.ActivityRecordedEntry.COL_SPEED),
-                cursor.getColumnIndex(Contract.ActivityRecordedEntry.COL_LOCATION)};
-
+        String[] colNames = cursor.getColumnNames();
         List<List<String>> matrix = new ArrayList<List<String>>();
-        int rowCount = 0;
         if(cursor.getCount() > 0){
             cursor.moveToFirst();
             do{
                 ArrayList<String> singleRow = new ArrayList<String>();
-                for(int colCount = 0; colCount < 5; colCount++){
-                    singleRow.add(cursor.getString(indices[colCount]));
+                for(int colCount = 0; colCount < colNames.length; colCount++){
+                    singleRow.add(cursor.getString(cursor.getColumnIndex(colNames[colCount])));
                 }
                 matrix.add(singleRow);
-                rowCount++;
             }while(cursor.moveToNext());
         }
         cursor.close();

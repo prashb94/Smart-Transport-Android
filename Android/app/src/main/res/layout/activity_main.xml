@@ -213,9 +213,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
-            android:text="DB" />
-
+            android:layout_centerHorizontal="true"
+            android:text="View Database" />
+        <!--
         <Button
             android:id="@+id/vehicleDialogBtn"
             style="@style/Widget.AppCompat.Button.Colored"
@@ -224,7 +224,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_toRightOf="@id/viewDbButton"
-            android:text="Select Vehicle" />
+            android:text="Select Vehicle" /> -->
 
     </RelativeLayout>
 

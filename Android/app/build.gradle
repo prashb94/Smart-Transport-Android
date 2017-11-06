@@ -25,6 +25,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:+'
+    compile 'com.android.support:preference-v7:+'
     //compile 'com.google.android.gms:play-services:11.4.2'
     compile 'com.google.android.gms:play-services:8.4.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
