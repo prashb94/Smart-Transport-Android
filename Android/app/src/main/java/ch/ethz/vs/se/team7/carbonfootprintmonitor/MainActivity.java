@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private LocationListener locationListener;
     private SQLQueryHelper sqlHelper;
 
+    //DETECTED ACTIVITY - VEHICLE = 0/BICYCLE = 1/FOOT = 2/RUNNING = 8/STILL = 3/TILTING = 5/UNKNOWN = 4/WALKING = 7
     public final int VEHICLE_TYPE_TRAM = 0;
     public final int VEHICLE_TYPE_BUS = 1;
     public final int VEHICLE_TYPE_REGIONAL_TRAIN = 2;
