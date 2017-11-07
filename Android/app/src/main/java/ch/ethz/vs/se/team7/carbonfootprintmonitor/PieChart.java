@@ -1,12 +1,15 @@
 package ch.ethz.vs.se.team7.carbonfootprintmonitor;
 
+/**
+ * Created by Prashanth on 11/5/2017.
+ */
+
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.FrameLayout;
 
 import com.github.mikephil.charting.components.Description;
-import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
@@ -96,10 +99,17 @@ public class PieChart extends AppCompatActivity {
         set.setColors(colors);
 
         PieData data = new PieData(set);
+        data.setValueFormatter(new PercentFormatter());
+        data.setValueTextSize(13f);
+        pieChart.setEntryLabelColor(Color.BLACK);
+        pieChart.setEntryLabelTextSize(13f);
+        data.setValueTextColor(Color.BLACK);
         pieChart.setData(data);
         Description description = new Description();
         description.setText("");
         pieChart.setDescription(description);
+        pieChart.animateXY(2000,2000);
+
         pieChart.invalidate();
 
 

@@ -1,5 +1,9 @@
 package ch.ethz.vs.se.team7.carbonfootprintmonitor.Storage;
 
+/**
+ * Created by Prashanth on 10/23/2017
+ */
+
 import android.provider.BaseColumns;
 
 public class Contract {

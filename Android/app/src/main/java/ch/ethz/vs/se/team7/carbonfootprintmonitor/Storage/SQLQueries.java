@@ -1,8 +1,6 @@
 package ch.ethz.vs.se.team7.carbonfootprintmonitor.Storage;
 
-/**
- * Created by Prashanth on 11/2/2017.
- */
+
 
 public interface SQLQueries {
     String CREATE_TABLE_QUERY = "CREATE TABLE IF NOT EXISTS "
