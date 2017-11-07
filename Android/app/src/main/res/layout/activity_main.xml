@@ -16,10 +16,14 @@
 
         <TextView
             android:id="@+id/welcome_user"
-            android:layout_width="wrap_content"
+            android:layout_width="260dp"
             android:layout_height="72dp"
-            android:layout_marginStart="10dp"
-            android:gravity="center"
+            android:layout_marginStart="14dp"
+            android:gravity=""
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="12sp"
+            android:autoSizeMaxTextSize="32sp"
+            android:autoSizeStepGranularity="2sp"
             style="@style/title_style" />
 
         <android.support.design.widget.FloatingActionButton
@@ -39,7 +43,7 @@
     <TableLayout
         android:id="@+id/table_layout_main"
         android:layout_width="match_parent"
-        android:layout_height="360dp"
+        android:layout_height="300dp"
         android:layout_below="@+id/actionbar_main">
 
         <TableRow
@@ -160,71 +164,78 @@
             android:id="@+id/time_layout"
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/viewDbButton"
-            android:layout_marginEnd="4dp"
-            android:gravity="center">
+            android:layout_height="80dp"
+            android:layout_marginEnd="6dp">
 
             <RadioGroup
-                android:gravity="center"
-                android:orientation="horizontal"
+                android:id="@+id/time_change_group"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="horizontal">
 
                 <RadioButton
                     android:id="@+id/button_day"
                     style="@style/Widget.AppCompat.Button.Colored"
-                    android:layout_weight="3"
-                    android:checked="true"
                     android:layout_height="wrap_content"
-                    android:text="@string/today"
-                    android:textColor="@android:color/white"
+                    android:layout_weight="3"
+                    android:background="@drawable/rounded_button_left"
                     android:button="@android:color/transparent"
-                    android:background="@drawable/rounded_button_left"/>
+                    android:checked="true"
+                    android:text="@string/today"
+                    android:textColor="@android:color/white" />
 
                 <RadioButton
                     android:id="@+id/button_week"
                     style="@style/Widget.AppCompat.Button.Colored"
-                    android:layout_weight="3"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="2dp"
                     android:layout_marginStart="2dp"
-                    android:text="@string/weekly"
-                    android:textColor="@android:color/white"
+                    android:layout_weight="3"
+                    android:background="@drawable/rounded_button_middle"
                     android:button="@android:color/transparent"
-                    android:background="@drawable/rounded_button_middle"/>
+                    android:text="@string/weekly"
+                    android:textColor="@android:color/white" />
 
                 <RadioButton
                     android:id="@+id/button_month"
                     style="@style/Widget.AppCompat.Button.Colored"
-                    android:layout_weight="3"
                     android:layout_height="wrap_content"
-                    android:text="@string/monthly"
-                    android:textColor="@android:color/white"
+                    android:layout_weight="3"
+                    android:background="@drawable/rounded_button_right"
                     android:button="@android:color/transparent"
-                    android:background="@drawable/rounded_button_right"/>
+                    android:text="@string/monthly"
+                    android:textColor="@android:color/white" />
             </RadioGroup>
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/viewDbButton"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
-            android:text="View Database" />
+        <LinearLayout
+            android:id="@+id/debug_layout_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/time_layout"
+            android:layout_marginEnd="6dp">
+
+            <Button
+                android:id="@+id/viewDbButton"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:text="View Database" />
 
 
-        <Button
-            android:id="@+id/pieChartButton"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/time_layout"
-            android:layout_alignParentBottom="true"
-            android:text="Pie Chart" />
+            <Button
+                android:id="@+id/pieChartButton"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="Pie Chart" />
+        </LinearLayout>
+
+
         <!--
         <Button
             android:id="@+id/vehicleDialogBtn"

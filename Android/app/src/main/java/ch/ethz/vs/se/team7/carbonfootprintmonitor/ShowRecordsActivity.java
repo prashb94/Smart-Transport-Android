@@ -20,7 +20,7 @@ import ch.ethz.vs.se.team7.carbonfootprintmonitor.Storage.DbHandler;
  * Created by Prashanth on 10/23/2017
  */
 
-public class ShowRecords extends AppCompatActivity {
+public class ShowRecordsActivity extends AppCompatActivity {
 
     SQLiteDatabase database;
     private DbHandler dbAdapter;

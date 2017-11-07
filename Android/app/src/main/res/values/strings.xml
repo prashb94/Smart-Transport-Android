@@ -8,6 +8,11 @@
     <string name="co2_monitor">Carbon Footprint Monitor</string>
     <string name="smart_transport">Smart Transport</string>
 
+    <!--Activity Names-->
+    <string name="settings">Settings</string>
+    <string name="piechart">Pie Chart</string>
+    <string name="database_details">Database Details</string>
+
     <!--Log In Activity-->
     <string name="ask_name">What\'s your name?</string>
     <string name="hint_name">Please enter your name here</string>

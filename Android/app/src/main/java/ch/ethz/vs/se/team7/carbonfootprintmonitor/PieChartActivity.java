@@ -25,7 +25,7 @@ import ch.ethz.vs.se.team7.carbonfootprintmonitor.Storage.SQLQueryHelper;
 
 import static ch.ethz.vs.se.team7.carbonfootprintmonitor.Storage.SQLQueries.GET_PIE_CHART_DATA;
 
-public class PieChart extends AppCompatActivity {
+public class PieChartActivity extends AppCompatActivity {
 
     private com.github.mikephil.charting.charts.PieChart pieChart;
 

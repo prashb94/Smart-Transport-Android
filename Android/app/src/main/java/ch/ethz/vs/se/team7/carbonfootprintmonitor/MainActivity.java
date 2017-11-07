@@ -2,11 +2,9 @@ package ch.ethz.vs.se.team7.carbonfootprintmonitor;
 
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.location.Location;
@@ -26,9 +24,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import android.app.AlertDialog;
-import android.widget.Toast;
-
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.ActivityRecognition;
@@ -39,12 +34,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import ch.ethz.vs.se.team7.carbonfootprintmonitor.Storage.Contract;
-import ch.ethz.vs.se.team7.carbonfootprintmonitor.Storage.DbHandler;
 import ch.ethz.vs.se.team7.carbonfootprintmonitor.Storage.SQLQueries;
 import ch.ethz.vs.se.team7.carbonfootprintmonitor.Storage.SQLQueryHelper;
-
-import static ch.ethz.vs.se.team7.carbonfootprintmonitor.Storage.SQLQueries.CREATE_TABLE_QUERY;
 
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
@@ -564,14 +555,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     public void viewDatabase(View view) {
         MEASUREMENT_INTERVAL = sharedPreferences.getInt("refreshInterval", 10);
         Context thisActivity = MainActivity.this;
-        Class destinationActivity = ShowRecords.class;
+        Class destinationActivity = ShowRecordsActivity.class;
         Intent intent = new Intent(thisActivity, destinationActivity);
         startActivity(intent);
     }
 
     public void viewPieChart(View view) {
         Context thisActivity = MainActivity.this;
-        Class destinationActivity = PieChart.class;
+        Class destinationActivity = PieChartActivity.class;
         Intent intent = new Intent(thisActivity, destinationActivity);
         startActivity(intent);
     }
