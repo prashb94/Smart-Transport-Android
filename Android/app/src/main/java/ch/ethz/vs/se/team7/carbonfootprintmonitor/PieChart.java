@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.widget.FrameLayout;
 
 import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
@@ -97,12 +98,26 @@ public class PieChart extends AppCompatActivity {
 
         colors.add(ColorTemplate.getHoloBlue());
         set.setColors(colors);
+
+        Legend l = pieChart.getLegend();
+        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+        l.setOrientation(Legend.LegendOrientation.VERTICAL);
+        l.setDrawInside(false);
+        l.setXEntrySpace(7f);
+        l.setYEntrySpace(0f);
+        l.setTextColor(Color.BLACK);
+        l.setYOffset(0f);
+
+        //Set true to enable legend
+        l.setEnabled(true);
+
         //Add data to chart, set text colors and animation
         PieData data = new PieData(set);
         data.setValueFormatter(new PercentFormatter());
-        data.setValueTextSize(13f);
+        data.setValueTextSize(10f);
         pieChart.setEntryLabelColor(Color.BLACK);
-        pieChart.setEntryLabelTextSize(13f);
+        pieChart.setEntryLabelTextSize(10f);
         data.setValueTextColor(Color.BLACK);
         pieChart.setData(data);
         Description description = new Description();
