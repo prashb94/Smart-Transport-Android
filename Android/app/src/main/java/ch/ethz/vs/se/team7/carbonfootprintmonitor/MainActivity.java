@@ -319,24 +319,25 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         MEASUREMENT_INTERVAL = sharedPreferences.getInt("refreshInterval", 10);
 
         if (energyDisplayFlag) {
-            viewWalkValue1.setText(convertToCO2(VEHICLE_TYPE_WALK, walkValueDistance));
-            viewWalkValue2.setText(convertToEnergy(VEHICLE_TYPE_WALK, walkValueDistance));
-            viewBikeValue1.setText(convertToCO2(VEHICLE_TYPE_BIKE, bikeValueDistance));
-            viewBikeValue2.setText(convertToEnergy(VEHICLE_TYPE_BIKE, bikeValueDistance));
-            viewCarValue1.setText(convertToCO2(VEHICLE_TYPE_CAR, carValueDistance));
-            viewCarValue2.setText(convertToEnergy(VEHICLE_TYPE_CAR, carValueDistance));
-            viewTramValue1.setText(convertToCO2(VEHICLE_TYPE_TRAM, tramValueDistance));
-            viewTramValue2.setText(convertToEnergy(VEHICLE_TYPE_TRAM, tramValueDistance));
+            //Divide by 1000 to convert to km
+            viewWalkValue1.setText(convertToCO2(VEHICLE_TYPE_WALK, walkValueDistance/1000));
+            viewWalkValue2.setText(convertToEnergy(VEHICLE_TYPE_WALK, walkValueDistance/1000));
+            viewBikeValue1.setText(convertToCO2(VEHICLE_TYPE_BIKE, bikeValueDistance/1000));
+            viewBikeValue2.setText(convertToEnergy(VEHICLE_TYPE_BIKE, bikeValueDistance/1000));
+            viewCarValue1.setText(convertToCO2(VEHICLE_TYPE_CAR, carValueDistance/1000));
+            viewCarValue2.setText(convertToEnergy(VEHICLE_TYPE_CAR, carValueDistance/1000));
+            viewTramValue1.setText(convertToCO2(VEHICLE_TYPE_TRAM, tramValueDistance/1000));
+            viewTramValue2.setText(convertToEnergy(VEHICLE_TYPE_TRAM, tramValueDistance/1000));
         }
         else {
             viewWalkValue1.setText(convertTime(walkValueTime));
-            viewWalkValue2.setText(String.format(getResources().getString(R.string.distance_unit_m), walkValueDistance));
+            viewWalkValue2.setText(String.format(getResources().getString(R.string.distance_unit_m), walkValueDistance/1000));
             viewBikeValue1.setText(convertTime(bikeValueTime));
-            viewBikeValue2.setText(String.format(getResources().getString(R.string.distance_unit_m), bikeValueDistance));
+            viewBikeValue2.setText(String.format(getResources().getString(R.string.distance_unit_m), bikeValueDistance/1000));
             viewCarValue1.setText(convertTime(carValueTime));
-            viewCarValue2.setText(String.format(getResources().getString(R.string.distance_unit_m), carValueDistance));
+            viewCarValue2.setText(String.format(getResources().getString(R.string.distance_unit_m), carValueDistance/1000));
             viewTramValue1.setText(convertTime(tramValueTime));
-            viewTramValue2.setText(String.format(getResources().getString(R.string.distance_unit_m), tramValueDistance));
+            viewTramValue2.setText(String.format(getResources().getString(R.string.distance_unit_m), tramValueDistance/1000));
         }
 
     }
