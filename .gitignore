@@ -1,2 +1,7 @@
 Android/.idea/
 Android/.gradle/
+*.aux
+*.bbl
+*.blg
+*.gz
+report/smart-transport.log
