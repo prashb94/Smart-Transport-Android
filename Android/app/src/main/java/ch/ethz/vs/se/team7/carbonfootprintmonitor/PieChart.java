@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.FrameLayout;
 
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -24,10 +25,6 @@ public class PieChart extends AppCompatActivity {
 
     private com.github.mikephil.charting.charts.PieChart pieChart;
 
-    private float[] yData;
-    private String[] xData;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,69 +42,39 @@ public class PieChart extends AppCompatActivity {
         pieChart.setRotationAngle(0);
         pieChart.setRotationEnabled(true);
 
+        List<PieEntry> entries = new ArrayList<>();
 
         List<List<String>> values = new SQLQueryHelper(this).getRecordsStringArray(GET_PIE_CHART_DATA);
-        yData = new float[values.size()];
-        xData = new String[values.size()];
-        int ycount = 0;
-        int xcount = 0;
         for(int i = 0; i < values.size(); i++)
         {
-            yData[ycount++] = Integer.parseInt(values.get(i).get(0));
+            float val1 = Float.parseFloat(values.get(i).get(0) + "f");
             switch (Integer.parseInt(values.get(i).get(1))){
                 case DetectedActivity.ON_BICYCLE:
-                    xData[xcount++] = "Bicycle";
+                    entries.add(new PieEntry(val1, "Bicycle"));
                     break;
                 case DetectedActivity.ON_FOOT:
-                    xData[xcount++] = "On Foot";
-                    break;
                 case DetectedActivity.WALKING:
-                    xData[xcount++] = "Walking";
+                    entries.add(new PieEntry(val1, "Walking"));
                     break;
                 case DetectedActivity.IN_VEHICLE:
-                    xData[xcount++] = "In Vehicle";
+                    entries.add(new PieEntry(val1, "Vehicle"));
                     break;
                 case DetectedActivity.RUNNING:
-                    xData[xcount++] = "Running";
+                    entries.add(new PieEntry(val1, "Running"));
                     break;
                 case DetectedActivity.TILTING:
-                    xData[xcount++] = "Tilting";
-                    break;
                 case DetectedActivity.STILL:
-                    xData[xcount++] = "Standing Still";
+                    entries.add(new PieEntry(val1, "Standing Still"));
                     break;
                 case DetectedActivity.UNKNOWN:
-                    xData[xcount++] = "Unknown";
+                    entries.add(new PieEntry(val1, "Unknown"));
                     break;
-
             }
         }
 
-        addData();
-
-        Legend legend = pieChart.getLegend();
-        legend.setPosition(Legend.LegendPosition.RIGHT_OF_CHART);
-        legend.setXEntrySpace(7);
-        legend.setYEntrySpace(5);
-
-
-    }
-
-    private void addData(){
-        ArrayList<PieEntry> yVals1 = new ArrayList<PieEntry>();
-
-        for (int i = 0; i < yData.length; i++)
-            yVals1.add(new PieEntry(yData[i], i));
-
-        ArrayList<String> xVals = new ArrayList<String>();
-
-        for (int i = 0; i < xData.length; i++)
-            xVals.add(xData[i]);
-
-        PieDataSet dataSet = new PieDataSet(yVals1, "Your Travel Info");
-        dataSet.setSliceSpace(3);
-        dataSet.setSelectionShift(5);
-
+        PieDataSet set = new PieDataSet(entries, "");
+        set.setSliceSpace(3);
+        set.setSelectionShift(5);
         ArrayList<Integer> colors = new ArrayList<Integer>();
 
         for (int c : ColorTemplate.VORDIPLOM_COLORS)
@@ -126,15 +93,17 @@ public class PieChart extends AppCompatActivity {
             colors.add(c);
 
         colors.add(ColorTemplate.getHoloBlue());
-        dataSet.setColors(colors);
-        PieData data = new PieData(dataSet);
-        data.setValueFormatter(new PercentFormatter());
-        data.setValueTextSize(11f);
-        data.setValueTextColor(Color.GRAY);
+        set.setColors(colors);
 
+        PieData data = new PieData(set);
         pieChart.setData(data);
-        pieChart.highlightValues(null);
+        Description description = new Description();
+        description.setText("");
+        pieChart.setDescription(description);
         pieChart.invalidate();
+
+
     }
+
 }
 
