@@ -213,6 +213,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             }
         });
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
         //DEBUG
         /*
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);

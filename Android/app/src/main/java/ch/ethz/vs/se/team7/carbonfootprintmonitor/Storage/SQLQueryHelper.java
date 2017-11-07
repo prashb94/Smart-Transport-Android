@@ -8,6 +8,8 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import static ch.ethz.vs.se.team7.carbonfootprintmonitor.Storage.SQLQueries.CREATE_TABLE_QUERY;
+
 /**
  * Created by Prashanth on 11/3/2017.
  */

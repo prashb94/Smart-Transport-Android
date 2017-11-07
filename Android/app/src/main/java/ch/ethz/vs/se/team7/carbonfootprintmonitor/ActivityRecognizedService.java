@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 
@@ -18,7 +17,7 @@ import java.util.List;
 
 import ch.ethz.vs.se.team7.carbonfootprintmonitor.Storage.Contract;
 import ch.ethz.vs.se.team7.carbonfootprintmonitor.Storage.DbHandler;
-import ch.ethz.vs.se.team7.carbonfootprintmonitor.Storage.SQLQueryHelper;
+
 
 public class ActivityRecognizedService extends IntentService {
 

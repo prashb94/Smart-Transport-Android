@@ -31,4 +31,10 @@
         android:summary="Record activities only above a certain confidence"
         android:max="100"
         android:defaultValue="30" />
+
+    <Preference
+        android:title="Clear Database"
+        android:key="dropTable"
+        android:summary="WARNING: This will delete all records!"/>
+
 </PreferenceScreen>
