@@ -106,7 +106,15 @@ We decided to display information about the CO2 emissions and energy usage in a 
 
 \subsection{Material for Calculating CO2 Emissions and Energy Usage}
 
-The energy usage and CO2 emissions from different vehicles varies a lot depending on the model. With this in mind, we wanted the results generated to be as accurate as possible for travel within Switzerland first and foremost. We found a table in a report by SBB covering the averages of both CO2 emissions and primary energy usage, for all different means of transport in SBB’s network, in passenger kilometres~\cite{sbbcalculator2017}.
+The energy usage and CO2 emissions from different vehicles varies a lot depending on the model. With this in mind, we wanted the results generated to be as accurate as possible for travel within Switzerland first and foremost. We found a table in a report by SBB covering the averages of both CO2 emissions and primary energy usage, for all different means of transport in SBB’s network, in passenger kilometres~\cite{sbbcalculator2017}. This table is shown in figure~\ref{fig:sbb-table}.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\columnwidth, height=6cm, keepaspectratio]{ressources/sbb-table.png}
+	\vspace{0em} % use negative white space to fix too large gaps
+	\caption{Table of CO2 emissions and primary energy usage~\cite{sbbcalculator2017}}
+	\label{fig:sbb-table}
+\end{figure}
 
 It is worth adding here, that it was no coincidence that we chose to use the primary energy per passenger kilometre (pkm). The alternative would have been to use final energy pkm, however, that would in our opinion have misled the user about his or her real ecological footprint. Of course, final energy better reflects the amount of energy consumed, nevertheless following that energy back to how it was generated better reflects reality. Only then it is actually fair to compare, for example, a car ride to an activity such as walking. 
 Furthermore, we did not think our user would be able to relate to ml gasoline/pkm, and chose to convert it to Mega Joule. 
