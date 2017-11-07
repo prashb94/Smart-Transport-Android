@@ -14,11 +14,13 @@
     <string name="database_details">Database Details</string>
 
     <!--Log In Activity-->
+    <string name="welcome">Welcome to Smart Transport!</string>
     <string name="ask_name">What\'s your name?</string>
     <string name="hint_name">Please enter your name here</string>
 
     <!--Main Activity-->
     <string name="live_green">%s, live green!</string>
+    <string name="live_green_everyday">Live green every day!</string>
 
 
     <!--Legend for Table in MainActivity-->

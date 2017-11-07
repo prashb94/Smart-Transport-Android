@@ -122,7 +122,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         Intent intent = getIntent();
         username = intent.getStringExtra(LoginActivity.EXTRA_USERNAME);
         TextView welcomeUser = findViewById(R.id.welcome_user);
-        welcomeUser.setText(getResources().getString(R.string.live_green, username));
+        if (username == null) {
+            welcomeUser.setText(getResources().getString(R.string.live_green_everyday));
+        }
+        else {
+            welcomeUser.setText(getResources().getString(R.string.live_green, username));
+        }
 
         //Initiate SQLQueryHelper
         sqlHelper = new SQLQueryHelper(MainActivity.this);
