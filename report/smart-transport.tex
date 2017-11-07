@@ -47,7 +47,15 @@ We see a trend in today’s society that people become more and more conscious a
 \section{Results and Discussion}
 \subsection{Designing Phase}
 
-After sitting down as a group and discussing the features we wanted in the final product, we drew a simple mock-up, as seen in figure 1, summarizing essential front-end design features, which would later greatly help us when coding the actual app.
+After sitting down as a group and discussing the features we wanted in the final product, we drew a simple mock-up, as seen in figure~\ref{fig:mock-up}, summarizing essential front-end design features, which would later greatly help us when coding the actual app.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\columnwidth]{ressources/mock-up.png}
+	\vspace{-1.5em} % use negative white space to fix too large gaps
+	\caption{Mock-Up of Smart Transport}
+	\label{fig:mock-up}
+\end{figure}
 
 
 \subsection{Tracking the User}
@@ -56,11 +64,11 @@ One of the first problems we faced when developing this app was figuring out how
 
 \subsection{Database}
 
-To get the GPS benefits described above we would frequently have to store the current position, and here we decided to use the embedded SQL database engine; SQLite. No server is involved in this storage system, so the data is simply stored locally in the file system.
+To get the GPS benefits described above we would frequently have to store the current position, and here we decided to use the embedded SQL database engine; SQLite. No server is involved in our application, so the data is simply stored locally in a database in the file system.
 
 \subsection{Automatically Infer Means of Transport}
 
-If we decided to let the user input his or her means of transport manually, the backend side would pretty much be done here. However, this is also not very user friendly, as it would take up too much time for the average user. We would have to make our application automatically determine the transportation means of the user for it to become usable. Lots of ideas were discussed here on how to determine means of transport, ranging from simple to advanced solutions.
+If we decided to let the user input his or her means of transport manually, the backend side would be done here. However, this is also not very user friendly, as it would take up too much time for the average user. We would have to make our application automatically determine the transportation means of the user for it to become usable. Lots of ideas were discussed here on how to determine means of transport, ranging from simple to advanced solutions.
 
 First off, we could easily guess that the user is in a vehicle of some kind, just by checking if the average travelling speed is exceeding a certain threshold.
 Adding to this we could analyse the flow of the transportation. This included parameters such as number of stops, top speed and average speed. This could help us determine if the passenger is travelling by bike – few and very short stops, and not very high top speed, all relative to other means of transport in the system. Top speed and average speed could also help us determine if user is a passenger in a train or bus/tram.
@@ -69,23 +77,31 @@ We used Google’s Activity Detection API to help us determine whether the user 
 
 \subsection{Analysing Result from Different Means of Transport}
 
-When going out in Zurich and testing different means of transport, we noticed different pattern in the data that we continuously collected in our database. Most importantly, we took a closer look at the speed, and how long the vehicle stood still as well as how often that happened. 
+When going out in Zurich we tested different means of transport, we noticed different pattern in the data that we continuously collected in our database. Most importantly, we took a closer look at the speed, and how long the vehicle stood still as well as how often that happened. 
 
 We surmised that the solution described above would be difficult to make, so that it always gives very accurate results. One type of vehicle pattern could look very similar another in certain circumstances. A better way would be to use an API from SBB, where one can see what type of transportation means  should be at a particular position at a certain time. However, we decided that would take too long to fit the time frame for this project.
-
-%\begin{figure}[h]
-%	\centering
-%	\includegraphics[width=\columnwidth]{ressources/t-sne2_4svd_comp.png}
-%	\vspace{-1.5em} % use negative white space to fix too large gaps
-%	\caption{Plots of data points after each SVD}
-%	\label{fig:t-sne-4-svd}
-%\end{figure}
 
 
 \subsection{Graphical User Interface}
 
-After starting up the app for the first time, the user will be asked for her name, simply for it to feel more interactive and to later be able to display the result in a more personal way.
-We decided to display information about the CO2 emissions and energy usage in a table-like form, which can be seen in figure 2. The user is then able to toggle between time/distance and CO2/energy.
+After starting up the app for the first time, the user will be asked for her name, simply for it to feel more interactive which is displayed in figure~\ref{fig:login} and to later be able to display the result in a more personal way.
+We decided to display information about the CO2 emissions and energy usage in a table-like form, which can be seen in figure. The user is then able to toggle between time/distance and CO2/energy.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\columnwidth, height=6cm, keepaspectratio]{ressources/LoginActivity.png}
+	\vspace{0em} % use negative white space to fix too large gaps
+	\caption{Login Activity with Question}
+	\label{fig:login}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\columnwidth, height=6cm, keepaspectratio]{ressources/MainActivityOn.png}
+	\vspace{0em} % use negative white space to fix too large gaps
+	\caption{Main Activity with Table}
+	\label{fig:main}
+\end{figure}
 
 
 \subsection{Material for Calculating CO2 Emissions and Energy Usage}
