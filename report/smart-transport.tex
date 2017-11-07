@@ -114,7 +114,24 @@ Furthermore, we did not think our user would be able to relate to ml gasoline/pk
 
 \subsection{Summary of Architecture}
 
-The MainActivity class of the application runs on the UI thread while location/speed updates and Activity Detection run on separate threads in the background. Both of these are enabled/disabled through the toggle button on the top right corner of the main screen. All activities are accumulated and stored in an SQLite database locally on the phone. The frequency of location updates by default is 10ms and can be adjusted from the Settings screen accessible through the MainActivity. Increasing this value means better performance, however can lead to misclassifications of the car/tram classification. An aggregation of the time spent in each mode of transport is displayed as a pie chart upon launching the PieChart activity from the MainActivity. An interface that holds SQL Query constants assists in fetching data.
+The MainActivity class of the application runs on the UI thread while location/speed updates and Activity Detection run on separate threads in the background. Both of these are enabled/disabled through the toggle button on the top right corner of the main screen. All activities are accumulated and stored in an SQLite database locally on the phone. The frequency of location updates by default is 10ms and can be adjusted from the settings screen accessible through the MainActivity. Increasing this value means better performance, however can lead to misclassifications of the car/tram classification. An aggregation of the time spent in each mode of transport is displayed as a pie chart upon launching the PieChart activity from the MainActivity which is shown in figure~\ref{fig:piechart}. An interface that holds SQL Query constants assists in fetching data.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\columnwidth, height=6cm, keepaspectratio]{ressources/SettingsActivity.png}
+	\vspace{0em} % use negative white space to fix too large gaps
+	\caption{Settings Activity displaying all possible options}
+	\label{fig:settings}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\columnwidth, height=6cm, keepaspectratio]{ressources/PieChartActivity.png}
+	\vspace{0em} % use negative white space to fix too large gaps
+	\caption{Pie Chart displaying all means of transport used}
+	\label{fig:piechart}
+\end{figure}
+
 
 The logic for differentiating between tram/car is as follows:
 
