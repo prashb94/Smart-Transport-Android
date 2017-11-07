@@ -31,6 +31,7 @@ public class LocationAndSpeed extends AsyncTask<Void, Void, Void> {
 
     private Context mContext;
 
+    //Stores last recorded location and speed for access in ActivityRecognizedService
     private LastKnownLocationAndSpeed saveLocationAndSpeed;
 
     public LocationAndSpeed(Context mContext) {

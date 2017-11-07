@@ -34,9 +34,9 @@ public class PieChart extends AppCompatActivity {
         setContentView(R.layout.activity_pie_chart);
         FrameLayout frameLayout= (FrameLayout) findViewById(R.id.chartContainer);
         pieChart = new com.github.mikephil.charting.charts.PieChart(this);
-
+        //Get FrameLayout
         frameLayout.addView(pieChart);
-
+        //Settings to make the pie chart look nicer
         pieChart.setUsePercentValues(true);
         pieChart.setDrawHoleEnabled(true);
         pieChart.setHoleColor(Color.TRANSPARENT);
@@ -46,7 +46,7 @@ public class PieChart extends AppCompatActivity {
         pieChart.setRotationEnabled(true);
 
         List<PieEntry> entries = new ArrayList<>();
-
+        //Aggregate data and get 2D List of values. Convert each to a pie chart entry. Fallthrough for useless cases.
         List<List<String>> values = new SQLQueryHelper(this).getRecordsStringArray(GET_PIE_CHART_DATA);
         for(int i = 0; i < values.size(); i++)
         {
@@ -74,7 +74,7 @@ public class PieChart extends AppCompatActivity {
                     break;
             }
         }
-
+        //Create dataset and set chart colors
         PieDataSet set = new PieDataSet(entries, "");
         set.setSliceSpace(3);
         set.setSelectionShift(5);
@@ -97,7 +97,7 @@ public class PieChart extends AppCompatActivity {
 
         colors.add(ColorTemplate.getHoloBlue());
         set.setColors(colors);
-
+        //Add data to chart, set text colors and animation
         PieData data = new PieData(set);
         data.setValueFormatter(new PercentFormatter());
         data.setValueTextSize(13f);
@@ -109,7 +109,7 @@ public class PieChart extends AppCompatActivity {
         description.setText("");
         pieChart.setDescription(description);
         pieChart.animateXY(2000,2000);
-
+        //Refresh chart
         pieChart.invalidate();
 
 
