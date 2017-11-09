@@ -1,5 +1,7 @@
 # Smart-Energy-Project-1
 
+![Alt text](/report/ressources/Smart_Energy_Logo_300.png?raw=true "Logo")
+
 A personal carbon footprint monitor android application completed as part of the requirement for the Smart Energy course at ETH Zurich, Fall 2017, created in the month of October.
 
 The application tracks the user's location and infers the mode of transport using the Google Activity Detection API.
@@ -22,3 +24,12 @@ There are many possible improvements -
 - Additional charts
 - Push notifications
 - Notifications about CO2 consumption
+
+![Alt text](/report/ressources/mock-up.png?raw=true "Mockup")
+
+![Alt text](/report/ressources/LoginActivity.png?raw=true "Login")
+![Alt text](/report/ressources/MainActivityCO2.png?raw=true "MainCO2")
+![Alt text](/report/ressources/MainActivityOff.png?raw=true "MainOff")
+![Alt text](/report/ressources/PieChartActivity.png?raw=true "PieChart")
+![Alt text](/report/ressources/SettingsActivity.png?raw=true "Settings")
+
