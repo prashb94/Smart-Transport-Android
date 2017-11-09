@@ -1,4 +1,4 @@
-# Smart-Energy-Project-1
+# Smart Transport Android Application
 
 ![Alt text](/report/ressources/Smart_Energy_Logo_300.png?raw=true "Logo")
 
